@@ -239,17 +239,19 @@ function printLogHandler() {
   //   console.log(battleLog[i]);
   // }
 
-  let i = 1;
+  let i = 0;
   for(const logEntry of battleLog) {
-    console.log(`#${i}`);
-    for(const key in logEntry) {
-      // console.log(key);
-      // console.log(logEntry[key]);
-      console.log(`${key}: ${logEntry[key]}`);
+    if(!lastLoggedEntry && lastLoggedEntry !== 0 || lastLoggedEntry < i) {
+      console.log(`#${i}`);
+      for(const key in logEntry) {
+        // console.log(key);
+        // console.log(logEntry[key]);
+        console.log(`${key}: ${logEntry[key]}`);
+      }
+      lastLoggedEntry = i;
+      break;
     }
-    lastLoggedEntry = i;
     i++;
-    break;
   }
 
 }
