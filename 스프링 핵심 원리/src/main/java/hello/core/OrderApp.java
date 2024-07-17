@@ -10,7 +10,7 @@ import hello.core.order.OrderServiceImpl;
 public class OrderApp {
 
     public static void main(String[] args) {
-        MemberService memberService = new MemberServiceImpl();
+        MemberService memberService = new MemberServiceImpl(memberRepository);
         OrderService orderService = new OrderServiceImpl();
 
         Long memberId = 1L;
