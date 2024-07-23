@@ -216,3 +216,9 @@ ApplicationContext applicationContext =
 - `ac.getBean(빈이름, 타입)`
 - `ac.getBean(타입)`
 - 조회 대상이 없으면 예외 발생 `NoSuchBeanDefinitionException`
+
+### 동일한 타입이 둘 이상
+- `ac.getBeansOfType()` : 해당 타입의 모든 빈 조회
+- 같은 타입의 스프링 빈이 둘 이상이면 `NoUniqueBeanDefinitionException` 예외 발생 
+  - 같은 타입의 빈이 둘 이상이면 빈 이름을 지정해 찾자
+- 
