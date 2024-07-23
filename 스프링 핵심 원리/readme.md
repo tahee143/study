@@ -53,7 +53,7 @@
 ### AppConfig
 - 애플리케이션의 전체 동작 방식을 구성하기 위해 **구현 객체를 생성**하고 **연결**하는 책임을 가지는 별도의 설정 클래스
 - AppConfig에서 실제 동작에 필요한 구현 객체를 생성, 생성한 객체 인스턴스의 참조를 생성자를 통해 주입(연결)
-  ``` 
+  ``` java
 	 public MemberService memberService(){
        return new MemberServiceImpl(new MemoryMemberRepository());
 	 } // 생성자 주입
@@ -75,7 +75,7 @@
 
 --- 
 ## AppConfig 리팩터링
-```
+```java
 public MemberService memberService(){
     return new MemberServiceImpl(memberRepository());
 }
@@ -156,7 +156,8 @@ private MemberRepository memberRepository() {
 - `@Bean` 붙은 메서드의 명을 스프링 빈 이름으로 사용
 - 이전에는 필요한 객체를 `AppConfig`를 이용해 직접 조회했지만 이젠 스프링 컨테이너를 통해 스프링 빈(객체)를 찾음
 - 스프링 빈은 `applicationContxt.getbeen()`메서드를 이용해 찾을 수 있음
-```
+### 스프링 컨테이너 사용 예시 코드
+```java
 // AppConfig
 @Configuration
 public class AppConfig {
@@ -168,4 +169,32 @@ public class AppConfig {
 ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
 MemberService memberService = applicationContext.getBean("memberService", MemberService.class);
 ```
+---
+## 스프링 컨테이너 생성
+### 스프링 컨테이너?
+- 스프링 컨테이너는 `BeenFactory`와 `ApplicationContext`로 구분
+- `BeenFactory`를 직접 사용하는 경우는 거의 없음, 일반적으로 `ApplicationContext`스프링 컨테이너라 함
+- 스프링 컨테이너는 `XML기반` 또는 `애노테이션 기반의 자바 설정 클래스`로 생성 가능
+- AppConfig를 사용해 생성한 방식이 애노테이션 기반의 자바 설정 클래스로 생성한 것
 
+#### 스프링 컨테이너 생성 예제 코드
+```java
+// 스프링 컨테이너 생성
+ApplicationContext applicationContext = 
+        new AnnotationConfigApplicationContext(AppConfig.class);
+```
+- `ApplicationContext`는 인터페이스
+- `AnnotationConfigApplicationContext` 클래스는 `ApplicationContext` 인터페이스 구현체임
+
+### 스프링 컨테이너 생성 과정
+1. 스프링 컨테이너 생성
+   - 스프링 컨테이너는 구성 정보 지정 필요, 구성 정보(`AppConfig`)를 매개변수로 넘겨줌
+   - `new AnnotationConfigApplicationContext(AppConfig.class)`를 통해 컨테이너 생성
+2. 스프링 빈 등록
+   - 매개변수로 받은 구성 클래스 정보를 사용해 스프링 빈 등록 
+     - `@Been` 붙은 메서드 모두 호출
+     - 스프링 빈 저장소에 메서드 명을 빈 이름으로 반환된 객체 빈 객체로 등록
+   - 빈 이름은 직접 부여할 수 있지만 일반적으로 메서드 이름을 사용
+   - `빈 이름끼리 중복❌` (다른 빈이 무시 또는 기존 빈을 덮어버리거나 오류 발생)
+3. 스프링 빈 의존관계 설정
+   - 스프링 컨테이너틑 구성 정보를 참고해 의존관계를 주입(DI)
