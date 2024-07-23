@@ -53,7 +53,7 @@
 ### AppConfig
 - 애플리케이션의 전체 동작 방식을 구성하기 위해 **구현 객체를 생성**하고 **연결**하는 책임을 가지는 별도의 설정 클래스
 - AppConfig에서 실제 동작에 필요한 구현 객체를 생성, 생성한 객체 인스턴스의 참조를 생성자를 통해 주입(연결)
-  ```
+  ``` 
 	 public MemberService memberService(){
        return new MemberServiceImpl(new MemoryMemberRepository());
 	 } // 생성자 주입
@@ -75,14 +75,16 @@
 
 --- 
 ## AppConfig 리팩터링
+```
+public MemberService memberService(){
+    return new MemberServiceImpl(memberRepository());
+}
 
-    public MemberService memberService(){
-        return new MemberServiceImpl(memberRepository());
-    }
+private MemberRepository memberRepository() {
+    return new MemoryMemberRepository();
+} // memberRepository 구현을 따로 메서드로 빼줌
+```
     
-    private MemberRepository memberRepository() {
-        return new MemoryMemberRepository();
-    } // memberRepository 구현을 따로 메서드로 빼줌
 
 - 기존 코드 ➡️ memberService, orderService에 `new MemoryMemberRepository()` 중복이 있고, 역할에 따른 구현이 잘 안보임 
 - 리팩토링 ➡️ 역할과 구현 클래스를 분리해 애플리케이션 전체 구성이 어떻게 되어있는지 빠르게 파악 가능
@@ -115,7 +117,7 @@
   - 👉소프트웨어 요소를 새롭게 확장해도 사용 영역의 변경은 닫혀있다
 
 ---
-## IoC, DI, 컨데이너
+## IoC, DI, 컨테이너
 ### 제어의 역전 IoC(Inversion of Control)
 - 기존엔 클라이언트 구현 객체가 스스로 필요한 서버 구현 객체를 생성, 연결, 실행함    
 👉구현 객체가 프로그램의 제어 흐름을 조종
@@ -142,3 +144,28 @@
 ### IoC 컨테이너, DI 컨테이너
 - AppConfig처럼 객체를 생성하고 관리하면서 의존관계를 연결해주는 것을 `IoC 컨테이너` 또는 `DI 컨테이너`
 - 의존관계 주입에 초점을 맞춰 주로 `DI 컨테이너`라고 함
+
+---
+## 스프링으로 전환하기
+### 스프링 컨테이너
+- `ApplicationContext` == 스프링 컨테이너
+- 기존엔 AppConfig를 사용해 직접 객체 생성하고 DI 했지만 이제는 스프링 컨테이너를 이용
+- 스프링 컨테이너는 `@Configuration` 붙은 `AppConfig`를 구성정보로 사용
+- `AppConfig`에 `@Bean` 붙은 메서드를 모두 호출해 반환된 객체를 스프링 컨테이너에 등록
+- 스프링 컨테이너에 등록된 객체가 `스프링 빈`
+- `@Bean` 붙은 메서드의 명을 스프링 빈 이름으로 사용
+- 이전에는 필요한 객체를 `AppConfig`를 이용해 직접 조회했지만 이젠 스프링 컨테이너를 통해 스프링 빈(객체)를 찾음
+- 스프링 빈은 `applicationContxt.getbeen()`메서드를 이용해 찾을 수 있음
+```
+// AppConfig
+@Configuration
+public class AppConfig {
+    @Bean
+    public MemberService memberService() { return new MemberServiceImpl(memberRepository()); }
+}
+
+// 스프링 빈 사용 코드
+ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+MemberService memberService = applicationContext.getBean("memberService", MemberService.class);
+```
+
