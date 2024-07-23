@@ -209,3 +209,10 @@ ApplicationContext applicationContext =
 - 사용자가 정의한 빈은 `ac.getRole()`로 구분해 출력할 수 있음
   - `ROLE_APPLICATION` : 직접 등록한 애플리케이션 빈
   - `ROLE_INFRASTRUCTURE` : 스프링이 내부에서 사용하는 빈
+
+---
+## 스프링 빈 조회
+### 기본적인 조회 방법
+- `ac.getBean(빈이름, 타입)`
+- `ac.getBean(타입)`
+- 조회 대상이 없으면 예외 발생 `NoSuchBeanDefinitionException`
