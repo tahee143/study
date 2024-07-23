@@ -38,7 +38,7 @@
 할인 정책을 변경하기 위해선 클라이언트인 OrderServiceImpl 수정 필요
 - 역할과 구현을 분리 ⭕️
 - 다형성도 활용하고 인터페이스와 구현 객체를 분리 ⭕️
-- OCP, DIP같은 객체지향 설계 원칙을 준수? ❌
+- OCP, DIP 객체지향 설계 원칙을 준수? ❌
   - `prvate final DiscountPolicy discountPolicy = new FixDiscountPolicy();` ➡️ `private final DiscountPolicy discountPolicy = new RateDiscountPolicy();`
   - DIP : 주문 서비스 클라이언트는 DiscountPolicy 인터페이스에 의존하면서 DIP 준수한 듯 하지만 추상(인터페이스)뿐만 아니라 구체(구현) 클래스에도 의존하고 있음
   - OCP : 기능을 확장해서 변경하면 클라이언트 코드 수정이 필요, 고정할인에서 정률할인으로 변경할 때 코드 변경 필요
@@ -71,9 +71,10 @@
   - **객체를 생성하고 연결하는 역할**과 **실행하는 역할**이 명확하게 분리
 
 ### 의존관계 주입 Dependency Injection, DI
-클라이언트 입장에서 의존관계를 외부에서 주입
+- 클라이언트 입장에서 의존관계를 외부에서 주입
 
-### AppConfig 리팩터링
+--- 
+## AppConfig 리팩터링
 
     public MemberService memberService(){
         return new MemberServiceImpl(memberRepository());
@@ -83,4 +84,12 @@
         return new MemoryMemberRepository();
     } // memberRepository 구현을 따로 메서드로 빼줌
 
-memberService, orderService에 `new MemoryMemberRepository()` 중복이 있고, 역할에 따른 구현이 잘 안보임 ➡️ 역할과 구현 클래스를 분리해 애플리케이션 전체 구성이 어떻게 되어있는지 빠르게 파악 가능
+- 기존 코드 ➡️ memberService, orderService에 `new MemoryMemberRepository()` 중복이 있고, 역할에 따른 구현이 잘 안보임 
+- 리팩토링 ➡️ 역할과 구현 클래스를 분리해 애플리케이션 전체 구성이 어떻게 되어있는지 빠르게 파악 가능
+
+---
+## 새로운 구조와 할인 정책 적용
+- `AppConfig` 등장 ➡️`사용영역`과 `구성영역`으로 분리됨
+- OCP, DIP 객체지향 설계 원칙을 준수? ⭕
+  - DIP : 주문 서비스 클라이언트는 DiscountPolicy 인터페이스에만 의존, 구체(구현) 클래스는 주입받음
+  - OCP : 기능을 확장, 변경시 클라이언트 코드 수정 불필요, AppConfig에서 모두 해결
