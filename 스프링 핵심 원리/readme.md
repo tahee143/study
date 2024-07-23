@@ -72,3 +72,15 @@
 
 ### 의존관계 주입 Dependency Injection, DI
 클라이언트 입장에서 의존관계를 외부에서 주입
+
+### AppConfig 리팩터링
+
+    public MemberService memberService(){
+        return new MemberServiceImpl(memberRepository());
+    }
+    
+    private MemberRepository memberRepository() {
+        return new MemoryMemberRepository();
+    } // memberRepository 구현을 따로 메서드로 빼줌
+
+memberService, orderService에 `new MemoryMemberRepository()` 중복이 있고, 역할에 따른 구현이 잘 안보임 ➡️ 역할과 구현 클래스를 분리해 애플리케이션 전체 구성이 어떻게 되어있는지 빠르게 파악 가능
