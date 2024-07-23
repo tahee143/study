@@ -155,7 +155,7 @@ private MemberRepository memberRepository() {
 - 스프링 컨테이너에 등록된 객체가 `스프링 빈`
 - `@Bean` 붙은 메서드의 명을 스프링 빈 이름으로 사용
 - 이전에는 필요한 객체를 `AppConfig`를 이용해 직접 조회했지만 이젠 스프링 컨테이너를 통해 스프링 빈(객체)를 찾음
-- 스프링 빈은 `applicationContxt.getbeen()`메서드를 이용해 찾을 수 있음
+- 스프링 빈은 `applicationContxt.getbean()`메서드를 이용해 찾을 수 있음
 ### 스프링 컨테이너 사용 예시 코드
 ```java
 // AppConfig
@@ -172,8 +172,8 @@ MemberService memberService = applicationContext.getBean("memberService", Member
 ---
 ## 스프링 컨테이너 생성
 ### 스프링 컨테이너?
-- 스프링 컨테이너는 `BeenFactory`와 `ApplicationContext`로 구분
-- `BeenFactory`를 직접 사용하는 경우는 거의 없음, 일반적으로 `ApplicationContext`스프링 컨테이너라 함
+- 스프링 컨테이너는 `BeanFactory`와 `ApplicationContext`로 구분
+- `BeanFactory`를 직접 사용하는 경우는 거의 없음, 일반적으로 `ApplicationContext`스프링 컨테이너라 함
 - 스프링 컨테이너는 `XML기반` 또는 `애노테이션 기반의 자바 설정 클래스`로 생성 가능
 - AppConfig를 사용해 생성한 방식이 애노테이션 기반의 자바 설정 클래스로 생성한 것
 
@@ -192,9 +192,20 @@ ApplicationContext applicationContext =
    - `new AnnotationConfigApplicationContext(AppConfig.class)`를 통해 컨테이너 생성
 2. 스프링 빈 등록
    - 매개변수로 받은 구성 클래스 정보를 사용해 스프링 빈 등록 
-     - `@Been` 붙은 메서드 모두 호출
+     - `@Bean` 붙은 메서드 모두 호출
      - 스프링 빈 저장소에 메서드 명을 빈 이름으로 반환된 객체 빈 객체로 등록
    - 빈 이름은 직접 부여할 수 있지만 일반적으로 메서드 이름을 사용
    - `빈 이름끼리 중복❌` (다른 빈이 무시 또는 기존 빈을 덮어버리거나 오류 발생)
 3. 스프링 빈 의존관계 설정
    - 스프링 컨테이너틑 구성 정보를 참고해 의존관계를 주입(DI)
+
+---
+## 컨테이너에 등록된 모든 빈 조회
+### 모든 빈 출력하기
+- `ac.getBeanDefinitionNames()` : 스프링에 등록된 모든 빈을 조회
+- `ac.getBean()` : 빈 이름으로 빈 객체(인스턴스) 조회
+### 애플리케이션 빈 출력하기
+- 스프링이 내부에서 사용하는 빈 제외하고 사용자가 정의한 빈만 출력
+- 사용자가 정의한 빈은 `ac.getRole()`로 구분해 출력할 수 있음
+  - `ROLE_APPLICATION` : 직접 등록한 애플리케이션 빈
+  - `ROLE_INFRASTRUCTURE` : 스프링이 내부에서 사용하는 빈
