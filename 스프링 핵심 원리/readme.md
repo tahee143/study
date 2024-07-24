@@ -221,4 +221,7 @@ ApplicationContext applicationContext =
 - `ac.getBeansOfType()` : 해당 타입의 모든 빈 조회
 - 같은 타입의 스프링 빈이 둘 이상이면 `NoUniqueBeanDefinitionException` 예외 발생 
   - 같은 타입의 빈이 둘 이상이면 빈 이름을 지정해 찾자
-- 
+
+### 상속 관계
+- 빈이 상속관계를 가지고 있을때 부모 타입으로 조회하면 자식 타입도 함께 조회
+  - 자바 객체의 최고 부모인 `Object` 타입으로 조회하면 모든 스프링 빈을 조회할 수 있음
