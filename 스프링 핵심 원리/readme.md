@@ -247,3 +247,18 @@ MessageSource, ApplicationEventPublisher, ResourcePatternResolver { }
   - `ApplicationEventPublisher` 애플리케이션 이벤트 : 이벤트 발행하고 구독하는 모델을 편리하게 지원
   - `ResourceLoader` 편리한 리소스 조회 : 파일, 클래스 패스, 외부 등에서 편리하게 조회 
   
+--- 
+## 스프링 컨테이너 XML 설정정보 만들기
+- 스프링 컨테이너는 다양한 형식 설정 정보를 사용할 수 있게 유연하게 설계
+  - 자바코드, XML, Groovy 등
+  
+#### 애노테이션 기반 자바 코드 설정
+- `new AnnotationConfigApplicationContext(AppConfig.class)`
+- `AnnotationConfigApplicationContext` 클래스 사용하면서 자바 코드로된 설정 정보를 넘김
+
+#### XML 설정 사용
+- 컴파일 없이 빈 설정 정보 변경 가능
+- 스프링 부트를 많이 사용하면서 XML 기반 설정을 잘 사용하지 않음
+- `GenericXmlApplicationContext` 클래스를 사용하면서 XML 설정 파일을 넘김
+
+---
