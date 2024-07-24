@@ -262,3 +262,26 @@ MessageSource, ApplicationEventPublisher, ResourcePatternResolver { }
 - `GenericXmlApplicationContext` 클래스를 사용하면서 XML 설정 파일을 넘김
 
 ---
+## BeanDefinition
+- `BeanDefinition` : 빈 설정 메타정보
+- `BeanDefinition` 이라는 추상화를 통해 스프링이 다양한 설정 형식을 지원할 수 있게함
+  - `@Bean`, `<bean>`당 각각 하나씩 메타 정보를 생성
+  - XML을 읽어 BeanDefinition을 만들거나, 자바 코드를 읽어 BeanDefinition을 만듦
+- 스프링 컨테이너는 메타정보를 기반으로 스프링 빈을 생성
+
+#### 코드레벨로 자세히 살펴보기
+- `AnnotationConfigApplicationContext`는 `AnnotateBeanDefinitionReader`를 사용해 `AppConfig.class`를 읽고 `BeanDefinition`을 생성
+- `GenericXmlApplicationContext`는 `XmlBeanDefinitionReader`를 사용해 `appConfig.xml`을 읽고 `BeanDefinition`을 생성
+- 새로운 형식의 설정 정보가 추가되면 `XxxBeanDefinitionReader`를 만들어 `BeanDefinition`을 생성
+
+### BeanDefinition 살펴보기
+- `BeanClassName` : 생성할 빈의 클래스명 (자바 설정처럼 팩토리 역할의 빈을 사용하면 없음)
+- `factoryBeanName` : 팩토리 역할의 빈을 사용할 경우 (appConfig)
+- `factoryMethodName` : 빈을 생성할 팩토리 메서드 지정 (memberService)
+- `Scope` : 싱글톤(기본값)
+- `lazyInit` : 스프링 컨테이너를 생성할 때 빈을 생성하는 것이 아니라, 실제 빈을 사용할 때까지 최대한 생성이 지연처리하는지 여부
+- `IniteMethodName` : 빈을 생성하고 의존관계를 적용한 뒤에 호출되는 초기화 메서드 명
+- `DestroyMethodName` : 빈의 생명주기가 끝나서 제거하기 직전에 호출되는 메서드 명
+- `Constructor arguments, Properties` : 의존관계 주입에서 사용 (자바 설정처럼 팩토리 역할의 빈을 사용하면 없음)
+
+---
