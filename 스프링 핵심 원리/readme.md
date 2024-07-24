@@ -225,3 +225,25 @@ ApplicationContext applicationContext =
 ### 상속 관계
 - 빈이 상속관계를 가지고 있을때 부모 타입으로 조회하면 자식 타입도 함께 조회
   - 자바 객체의 최고 부모인 `Object` 타입으로 조회하면 모든 스프링 빈을 조회할 수 있음
+
+---
+## BeanFactory와 ApplicationContext
+### BeanFactory
+- 스프링 컨테이너의 최상위 인터페이스
+- 스프링 빈을 관리하고 조회하는 역할 담당
+- `getBean()` 제공
+- 사용했던 대부분의 기능은 BeanFactory가 제공하는 기능
+- 직접 사용하는 일은 거의 없고 부가 기능이 포함된 ApplicationContext를 주로 사용
+
+### ApplicationContext
+```java
+public interface ApplicationContext extends EnvironmentCapable, ListableBeanFactory, HierarchicalBeanFactory,
+MessageSource, ApplicationEventPublisher, ResourcePatternResolver { }
+```
+- BeanFactory 기능을 모두 상속받아 제공
+- ApplicationContext는 빈 관리기능 + 편리한 부가 기능
+  - `MessageSource` : 메시지소스를 활용한 국제화 가능
+  - `EnvironmentCapable` 환경변수 : 로컬, 개발, 운영 등을 구분해서 처리
+  - `ApplicationEventPublisher` 애플리케이션 이벤트 : 이벤트 발행하고 구독하는 모델을 편리하게 지원
+  - `ResourceLoader` 편리한 리소스 조회 : 파일, 클래스 패스, 외부 등에서 편리하게 조회 
+  
