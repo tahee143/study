@@ -33,4 +33,13 @@ public class ConfigurationSingletonTest {
         assertThat(memberService.getMemberRepository()).isSameAs(memberRepository);
         assertThat(orderService.getMemberRepository()).isSameAs(memberRepository);
     }
+
+    @Test
+    @DisplayName("appConfig 클래스 정보 확인")
+    void configurationDeep() {
+
+        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+        AppConfig appConfig = ac.getBean(AppConfig.class);
+        System.out.println("appConfig.getClass() = " + appConfig.getClass()); // AppConfig$$SpringCGLIB$$0
+    }
 }

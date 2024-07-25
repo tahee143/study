@@ -394,3 +394,41 @@ public class StatefulService {
 - 테스트코드로 검증해보면 싱글톤이 유지됨 -> 스프링 컨테이너가 해결
 
 ---
+
+## @Configuration과 바이트코드 조작의 마법
+- 스프링 컨테이너는 싱글톤 레지스트리, 스프링 빈이 싱글톤이 되도록 보장해줘야함
+- 싱글톤을 보장하기 위해 스프링 클래스의 바이트코드를 조작하는 라이브러리를 사용
+
+#### appConfig 클래스 정보 확인
+```java
+AppConfig appConfig = ac.getBean(AppConfig.class);
+// 출력 결과 : class hello.core.AppConfig$$SpringCGLIB$$0
+```
+- `AnnotationConfigApplicationContext` 파라미터로 넘긴 설정 정보 `AppConfig`도 빈으로 등록됨
+- 순수한 클래스라면 `class hello.core.AppConfig`라고 출력됨
+- 결과는 `class hello.core.AppConfig$$SpringCGLIB$$0`
+- 스프링이 `CGLIB`라는 바이트코드 조작 라이브러리를 사용해서 **AppConfig 클래스를 상속받은 임의의 다른 클래스를 생성**하고 빈으로 등록함
+  - AppConfig@CGLIB는 AppConfig의 자식 타입으로 AppConfig 타입으로 조회 가능
+- 이 임의의 클래스가 싱글톤을 보장
+
+
+##### AppConfig@CGLIB 예상 코드
+
+```java
+@Bean
+public MemberRepository memberRepository() {
+    if(memoryMemberRepository 이미 스프링 컨테이너에 등록?){
+        return 스프링 컨테이너에서 찾아서 반환
+    } else {
+        기존 로직 호출 MemoryMemberRepository 생성 후 스프링 컨테이너 등록
+        return 반환
+    }
+}
+```
+- @Bean이 붙은 메서드마다 스프링 빈이 존재하면 존재하는 빈 반환, 없으면 생성 후 스프링 빈에 등록하여 반환하는 코드가 동적으로 생성
+- 싱글톤을 보장해줌
+
+#### @Configuration 없이 @Bean만 적용하면?
+- 스프링 빈으로 등록은 되지만 싱글톤을 보장하지 않음
+
+---
