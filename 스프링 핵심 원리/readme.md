@@ -307,3 +307,37 @@ MessageSource, ApplicationEventPublisher, ResourcePatternResolver { }
 
 ---
 
+## 싱글톤 패턴
+- 클래스의 인스턴스가 딱 1개만 생성되는 것을 보장하는 디자인 패턴
+
+#### 싱글톤 예제
+- 구현방법은 여러가지가 있지만 객체를 미리 생성해두는 가장 단순하고 안전한 방법으로 예시
+```java
+public class SingletonService {
+
+    // static 영역에 인스턴스 생성
+    private static final SingletonService instance = new SingletonService();
+
+    // 객체 인스턴스가 필요하면 이 static 메서드를 통해서만 조회하도록 허용
+    public static SingletonService getInstance() {
+        return instance;
+    }
+
+    // private 생성자통해 외부에서 객체 생성을 막음
+    private SingletonService() {
+    }
+}
+```
+1. static 영역에 객체 instance를 하나 생성해 올려둔다
+2. 객체 인스턴스를 사용할땐 `getInstance()`메서드를 통해서만 조회가능, 이 메서드는 항상 같은 instance 반환
+3. 1개의 객체 인스턴스만 존재하기 위해 생성자를 `private`으로 막아 외부에서 `new` 키워드 객체 생성을 막음
+
+### 싱글톤 패턴 문제점
+- 싱글톤 패턴을 구현하는 코드 자체가 많이 들어감
+- 의존관계상 클라이언트가 구체 클래스에 의존 👉DIP 위반
+- 클라이언트가 구체 글래스에 의존해서 OCP 위반 가능성이 높음
+- 테스트 어려움
+- 내부 속성을 변경하거나 초기화 어려움
+- private 생성자로 자식 클래스 생성 어려움
+- 결론적으로 유연성이 떨어짐
+- 안티패턴으로 불리기도 함
