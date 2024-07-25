@@ -384,3 +384,13 @@ public class StatefulService {
 ```
 
 ---
+
+## @Configuration과 싱글톤
+- memberService 빈을 생성하는 코드를 보면 `memberRepository()` 호출
+  - `new MemmoryMemberRepository()`가 호출
+- orderService 빈을 생성하는 코드도 동일하게 `memberRepository()` 호출
+  - `new MemmoryMemberRepository()`가 호출
+- `MemmoryMemberRepository`가 2개 생성되면서 싱글톤이 깨지는 것처럼 보임
+- 테스트코드로 검증해보면 싱글톤이 유지됨 -> 스프링 컨테이너가 해결
+
+---

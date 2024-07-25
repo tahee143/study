@@ -27,4 +27,9 @@ public class OrderServiceImpl implements OrderService {
         // 할인관련 discount policy가 책임, 주문은 주문만 -> SRP
         return new Order(memberId, itemName, itemPrice, discountPrice);
     }
+
+    // 싱글톤 테스트 용도
+    public MemberRepository getMemberRepository() {
+        return memberRepository;
+    }
 }
