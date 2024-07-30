@@ -3,25 +3,22 @@ package hello.core.order;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor // final 붙은 멤버변수를 매개 변수로 받는 생성자 자동 생성
 public class OrderServiceImpl implements OrderService {
-
-//    private final MemberRepository memberRepository = new MemoryMemberRepository();
-//    private final DiscountPolicy discountPolicy = new FixDiscountPolicy(); // 고정할인
-//    private final DiscountPolicy discountPolicy = new RateDiscountPolicy(); // 정률할인
-//    private DiscountPolicy discountPolicy;
 
     // 생성자 주입으로 구현객체 받음
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
 
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
-        this.memberRepository = memberRepository;
-        this.discountPolicy = discountPolicy;
-    }
+//    @Autowired 생성자가 하나만 있으면 생략 가능
+//    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+//        this.memberRepository = memberRepository;
+//        this.discountPolicy = discountPolicy;
+//    } // @RequiredArgsConstructor 사용으로 주석 처리
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {

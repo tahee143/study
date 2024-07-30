@@ -1,4 +1,4 @@
-## 비즈니스 요구사항과 설계
+## 2.1 비즈니스 요구사항과 설계
 - 회원
 	- 회원은 가입하고 조회할 수 있음
 	- 회원은 일반과 VIP 두 등급이 있음
@@ -13,7 +13,7 @@
 
 ---
 
-### 회원 도메인 설계의 문제점
+## 2.2 회원 도메인 설계의 문제점
 - 코드 설계상 문제점? 
 - 다른 저장소로 변경 시 OCP 원칙 준수?
 - DIP 지키고 있는지?
@@ -23,7 +23,7 @@
 
 ---
 
-## 주문과 할인 도메인 설계
+## 2.3 주문과 할인 도메인 설계
 1. 주문 생성 : 클라이언트는 주문 서비스에 주문 생성을 요청
 2. 회원 조회 : 할인을 위해서는 회원 등급 필요, 주문 서비스는 회원 저장소에서 회원 조회
 3. 할인 적용 : 주문 서비스는 회원 등급에 따른 할인 여부를 할인 정책에 위임
@@ -33,10 +33,10 @@
 
 ---
 
-## 새로운 할인 정책 개발
+## 3.1 새로운 할인 정책 개발
 - 기존은 할인 금액을 1000원으로 고정했지만 새로운 할인 정책은 주문 금액당 할인하는 정률% 할인
 
-### 새로운 할인 정책 적용과 문제점
+### 3.2 새로운 할인 정책 적용과 문제점
 할인 정책을 변경하기 위해선 클라이언트인 OrderServiceImpl 수정 필요
 - 역할과 구현을 분리 ⭕️
 - 다형성도 활용하고 인터페이스와 구현 객체를 분리 ⭕️
@@ -52,7 +52,7 @@
 
 ---
 
-## 관심사의 분리
+## 3.3 관심사의 분리
 ### AppConfig
 - 애플리케이션의 전체 동작 방식을 구성하기 위해 **구현 객체를 생성**하고 **연결**하는 책임을 가지는 별도의 설정 클래스
 - AppConfig에서 실제 동작에 필요한 구현 객체를 생성, 생성한 객체 인스턴스의 참조를 생성자를 통해 주입(연결)
@@ -78,7 +78,7 @@
 
 --- 
 
-## AppConfig 리팩터링
+## 3.4 AppConfig 리팩터링
 ```java
 public MemberService memberService(){
     return new MemberServiceImpl(memberRepository());
@@ -93,7 +93,7 @@ private MemberRepository memberRepository() {
 
 ---
 
-## 새로운 구조와 할인 정책 적용
+## 3.5 새로운 구조와 할인 정책 적용
 - `AppConfig` 등장 ➡️`사용영역`과 `구성영역`으로 분리됨
 - OCP, DIP 객체지향 설계 원칙을 준수? ⭕
   - DIP : 주문 서비스 클라이언트는 DiscountPolicy 인터페이스에만 의존, 구체(구현) 클래스는 주입받음
@@ -101,7 +101,7 @@ private MemberRepository memberRepository() {
 
 ---
 
-## 객체 지향 설계 원칙 적용
+## 3.6 객체 지향 설계 원칙 적용
 #### SRP 단일 책임 원칙
 - 클라이언트 객체는 직접 구현 객체를 생성, 연결, 실행하는 책임을 가지고 있었음
 - AppConfig를 이용해 관심사 분리
@@ -122,7 +122,7 @@ private MemberRepository memberRepository() {
 
 ---
 
-## IoC, DI, 컨테이너
+## 3.7 IoC, DI, 컨테이너
 ### 제어의 역전 IoC(Inversion of Control)
 - 기존엔 클라이언트 구현 객체가 스스로 필요한 서버 구현 객체를 생성, 연결, 실행함    
 👉구현 객체가 프로그램의 제어 흐름을 조종
@@ -152,7 +152,7 @@ private MemberRepository memberRepository() {
 
 ---
 
-## 스프링으로 전환하기
+## 3.8 스프링으로 전환하기
 ### 스프링 컨테이너
 - `ApplicationContext` == 스프링 컨테이너
 - 기존엔 AppConfig를 사용해 직접 객체 생성하고 DI 했지만 이제는 스프링 컨테이너를 이용
@@ -178,7 +178,7 @@ MemberService memberService = applicationContext.getBean("memberService", Member
 
 ---
 
-## 스프링 컨테이너 생성
+## 4.1 스프링 컨테이너 생성
 ### 스프링 컨테이너?
 - 스프링 컨테이너는 `BeanFactory`와 `ApplicationContext`로 구분
 - `BeanFactory`를 직접 사용하는 경우는 거의 없음, 일반적으로 `ApplicationContext`스프링 컨테이너라 함
@@ -209,7 +209,7 @@ ApplicationContext applicationContext =
 
 ---
 
-## 컨테이너에 등록된 모든 빈 조회
+## 4.2 컨테이너에 등록된 모든 빈 조회
 ### 모든 빈 출력하기
 - `ac.getBeanDefinitionNames()` : 스프링에 등록된 모든 빈을 조회
 - `ac.getBean()` : 빈 이름으로 빈 객체(인스턴스) 조회
@@ -221,7 +221,7 @@ ApplicationContext applicationContext =
 
 ---
 
-## 스프링 빈 조회
+## 4.3 스프링 빈 조회
 ### 기본적인 조회 방법
 - `ac.getBean(빈이름, 타입)`
 - `ac.getBean(타입)`
@@ -238,7 +238,7 @@ ApplicationContext applicationContext =
 
 ---
 
-## BeanFactory와 ApplicationContext
+## 4.4 BeanFactory와 ApplicationContext
 ### BeanFactory
 - 스프링 컨테이너의 최상위 인터페이스
 - 스프링 빈을 관리하고 조회하는 역할 담당
@@ -260,7 +260,7 @@ MessageSource, ApplicationEventPublisher, ResourcePatternResolver { }
   
 --- 
 
-## 스프링 컨테이너 XML 설정정보 만들기
+## 4.5 스프링 컨테이너 XML 설정정보 만들기
 - 스프링 컨테이너는 다양한 형식 설정 정보를 사용할 수 있게 유연하게 설계
   - 자바코드, XML, Groovy 등
   
@@ -275,7 +275,7 @@ MessageSource, ApplicationEventPublisher, ResourcePatternResolver { }
 
 ---
 
-## BeanDefinition
+## 4.6 BeanDefinition
 - `BeanDefinition` : 빈 설정 메타정보
 - `BeanDefinition` 이라는 추상화를 통해 스프링이 다양한 설정 형식을 지원할 수 있게함
   - `@Bean`, `<bean>`당 각각 하나씩 메타 정보를 생성
@@ -299,7 +299,7 @@ MessageSource, ApplicationEventPublisher, ResourcePatternResolver { }
 
 ---
 
-## 웹 애플리케이션과 싱글톤
+## 5.1 웹 애플리케이션과 싱글톤
 - 웹 애플리케이션은 보통 여러 고객이 동시에 요청
 - 현재 스프링없는 순수한 DI 컨테이너 AppConfig는 요청이 올 때마다 매번 새로운 객체를 생성
 - 매번 새로운 객체를 생성하면 메모리 낭비가 심함
@@ -307,7 +307,7 @@ MessageSource, ApplicationEventPublisher, ResourcePatternResolver { }
 
 ---
 
-## 싱글톤 패턴
+## 5.2 싱글톤 패턴
 - 클래스의 인스턴스가 딱 1개만 생성되는 것을 보장하는 디자인 패턴
 
 #### 싱글톤 예제
@@ -344,7 +344,7 @@ public class SingletonService {
 
 ---
 
-## 싱글톤 컨테이너
+## 5.3 싱글톤 컨테이너
 - 스프링 컨테이너는 싱글톤 패턴의 문제점을 해결하면서 객체 인스턴스를 싱글톤으로 관리함
 - 스프링 빈이 싱글톤으로 관리되는 빈
 
@@ -357,7 +357,7 @@ public class SingletonService {
 
 ---
 
-## 싱글톤 방식의 주의점
+## 5.4 싱글톤 방식의 주의점
 - 싱글톤 방식은 여러 클라이언트가 하나의 같은 객체 인스턴스를 공유하기 때문에 싱글톤 객체는 상태를 유지(stateful)하게 설계하면 안됨
 - `무상태 stateless`하게 설계해야함
   - 특정 클라이언트에 의존적인 필드가 있으면 안됨
@@ -385,7 +385,7 @@ public class StatefulService {
 
 ---
 
-## @Configuration과 싱글톤
+## 5.5 @Configuration과 싱글톤
 - memberService 빈을 생성하는 코드를 보면 `memberRepository()` 호출
   - `new MemmoryMemberRepository()`가 호출
 - orderService 빈을 생성하는 코드도 동일하게 `memberRepository()` 호출
@@ -395,7 +395,7 @@ public class StatefulService {
 
 ---
 
-## @Configuration과 바이트코드 조작의 마법
+## 5.6 @Configuration과 바이트코드 조작의 마법
 - 스프링 컨테이너는 싱글톤 레지스트리, 스프링 빈이 싱글톤이 되도록 보장해줘야함
 - 싱글톤을 보장하기 위해 스프링 클래스의 바이트코드를 조작하는 라이브러리를 사용
 
@@ -433,7 +433,7 @@ public MemberRepository memberRepository() {
 
 ---
 
-## 컴포넌트 스캔과 의존관계 자동주입 시작
+## 6.1  컴포넌트 스캔과 의존관계 자동주입 시작
 - 설정해야할 빈의 갯수가 늘어나면 설정 정보를 작성하는 것도 어려워짐(누락, 반복 등)
 - 그래서 스프링은 설정 정보가 없어도 자동으로 스프링 빈을 등록하는 `컴포넌트 스캔`을 제공
 - 의존관계도 자동으로 주입하는 `@Autowired`라는 기능도 제공
@@ -476,7 +476,7 @@ public class MemberServiceImpl implements MemberService{
 
 ---
 
-## 컴포넌트 스캔의 탐색 위치와 스캔 대상
+## 6.2 컴포넌트 스캔의 탐색 위치와 스캔 대상
 ### 탐색할 패키기의 시작 위치 지정
 ```java
 @ComponentScan( 
@@ -499,7 +499,7 @@ public class MemberServiceImpl implements MemberService{
 
 ---
 
-## 필터
+## 6.3 필터
 - `includeFilters` : 컴포넌트 스캔 대상을 추가로 지정
 - `excludeFilters` : 컴포넌트 스캔에서 제외할 대상 지정
 
@@ -526,7 +526,7 @@ static class ComponentFilterAppConfig {
 
 ---
 
-## 중복 등록과 충돌
+## 6.4 중복 등록과 충돌
 ### 자동 빈 등록 🆚 자동 빈 등록
 - 컴포넌트 스캔에 의해 자동으로 스프링 빈이 등록될 때 이름이 같은 경우 오류 발생
   - `ConflictingBeanDefinitionException` 예외 발생
@@ -559,7 +559,7 @@ Consider renaming one of the beans or enabling overriding by setting spring.main
 
 ---
 
-## 다양한 의존관계 주입 방법
+## 7.1 다양한 의존관계 주입 방법
 - 의존관계 주입 4가지 방법
   - 생성자 주입
   - 수정자 주입(setter 주입)
@@ -635,7 +635,7 @@ public class OrderServiceImpl implements OrderService {
 
 ---
 
-## 옵션처리
+## 7.2 옵션처리
 - 주입할 빈없이 동작해야할 때 `@Autowired`만 사용하면 `required`옵션의 기본값이 `true`로 되어있어 오류 발생
   - `UnsatisfiedDependencyException` 예외 발생
 
@@ -646,7 +646,7 @@ public class OrderServiceImpl implements OrderService {
 
 ---
 
-## 생성자 주입을 선택해라
+## 7.3 생성자 주입을 선택해라
 - 과거는 수정자 주입과 필드 주입 주로 사용, 최근 스프링 포함한 DI 프레임워트 대부분 생성자 주입 권장
 - 불변
   - 의존관계 주입은 애플리케이션 종료 시점까지 변경할 일이 없음, 오히려 변하면 안됨(불변)
@@ -663,5 +663,43 @@ public class OrderServiceImpl implements OrderService {
 - 생성자 주입 방식은 프레임워크에 의존하지 않고 순수한 자바 언어의 특징을 잘 살리는 방법
 - 기본으로 생성자 주입을 사용하고 필수 값이 아닌 경우 수정자 주입 방식을 옵션으로 부여 권장
 - 필드 주입은 사용하지 말자~
+
+---
+
+## 롬복과 최신 트렌드 
+- 최근에는 생성자를 딱 1개 두고 `@Autowired` 생략하는 방법을 주로 사용
+  - 생성자가 1개만 있으면 `@Autowired` 생략 가능
+- 여기에 Lombok 라이브러리의 애노테이션을 사용해 코드 깔끔하게 사용
+  - 롬복의 `@RequiredArgsConstructor`를 사용하면 final이 붙은 필드를 모아 생성자를 자동으로 생성
+
+##### Lombok 사용 전
+```java
+@Component
+public class OrderServiceImpl implements OrderService {
+
+  private final MemberRepository memberRepository;
+  private final DiscountPolicy discountPolicy;
+
+    @Autowired 생성자가 하나만 있으면 생략 가능
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
+  ...
+}
+```
+
+##### Lombok 사용 후
+```java
+@Component
+@RequiredArgsConstructor // final 붙은 멤버변수를 매개 변수로 받는 생성자 자동 생성
+public class OrderServiceImpl implements OrderService {
+
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy;
+    ...
+}
+
+```
 
 ---
