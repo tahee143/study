@@ -432,3 +432,46 @@ public MemberRepository memberRepository() {
 - 스프링 빈으로 등록은 되지만 싱글톤을 보장하지 않음
 
 ---
+
+## 컴포넌트 스캔과 의존관계 자동주입 시작
+- 설정해야할 빈의 갯수가 늘어나면 설정 정보를 작성하는 것도 어려워짐(누락, 반복 등)
+- 그래서 스프링은 설정 정보가 없어도 자동으로 스프링 빈을 등록하는 `컴포넌트 스캔`을 제공
+- 의존관계도 자동으로 주입하는 `@Autowired`라는 기능도 제공
+
+#### @ComponentScan
+```java
+@Configuration
+@ComponentScan (
+        excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Configuration.class)
+) // 기존에 작성한 설정정보 스캔대상에서 제외
+public class AutoAppConfig {
+}
+```
+- 스프링 빈으로 등록해주기 위해선 각 클래스가 컴포넌트 스캔 대상이 되도록 `@Component` 애노테이션을 붙여야함
+- `@Component` 애노테이션이 붙은 클래스를 스캔해 스프링 빈으로 등록
+  - 빈 이름 기본 전략 : 클래스 명 맨 앞글자 소문자로 사용 MemberServiceImpl 👉 memberServiceImpl
+  - 빈 이름 직접 지정 : @Component("memberService") 직접 이름을 부여
+- `@Configuration`이 스캔 대상이 되는 이유는 `@Component` 애노테이션이 붙어있기 때문
+
+#### @Autowired
+```java
+@Component
+public class MemberServiceImpl implements MemberService{
+    private final MemberRepository memberRepository;
+
+    @Autowired // 자동 의존관계 주입
+    public MemberServiceImpl(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
+
+  ...
+}
+```
+- 이전 설정정보를 작성할 때는 `@Bean`으로 직접 설정정보를 작성하고 의존관계도 직접 명시
+- `@ComponentScan`을 사용하면 이런 설정정보가 없기 때문에 의존관계 주입도 클래스 안에서 해결해야함
+- 자동으로 의존관계를 주입하기 위해 생성자에 `@Autowired` 애노테이션을 사용
+- 스프링 컨테이너가 자동으로 해당 스프링 빈을 찾아 주입
+  - 이때 기본 조회 전략을 타입이 같은 빈을 찾아서 주입
+  - `getBean(MemberRepository.class)`와 동일하다고 이해
+
+---
