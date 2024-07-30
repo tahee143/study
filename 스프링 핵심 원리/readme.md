@@ -525,3 +525,34 @@ static class ComponentFilterAppConfig {
 - `CUSTOM` : `TypeFilter` 인터페이스 구현해서 처리
 
 ---
+
+## 중복 등록과 충돌
+### 자동 빈 등록 🆚 자동 빈 등록
+- 컴포넌트 스캔에 의해 자동으로 스프링 빈이 등록될 때 이름이 같은 경우 오류 발생
+  - `ConflictingBeanDefinitionException` 예외 발생
+
+### 수동 빈 등록 🆚 자동 빈 등록
+```java
+// 자동 빈 등록
+@Component
+public class MemoryMemberRepository implements MemberRepository{
+  ...
+}
+
+// 수동 빈 등록
+@Configuration
+@ComponentScan
+public class AutoAppConfig {
+    @Bean(name = "memoryMemberRepository")
+    MemberRepository memberRepository() {
+        return new MemoryMemberRepository();
+    }
+}
+```
+- 수동 빈 등록이 우선권을 가짐
+  - 수동 빈이 자동 빈을 오버라이딩함
+- 최근 스프링 부트에서는 수동 빈 등록과 자동 빈 등록 출동이 생기면 오류 발생
+```
+// 스프링 부터 에러 메세지
+Consider renaming one of the beans or enabling overriding by setting spring.main.allow-bean-definition-overriding=true
+```
