@@ -498,3 +498,30 @@ public class MemberServiceImpl implements MemberService{
   - 참고 : 애노테이션에는 상속관계가 없다. 애노테이션이 특정 애노테이션을 들고 있는 것을 인식하는 것은 자바의 기능이 아니라 스프링이 지원하는 기능
 
 ---
+
+## 필터
+- `includeFilters` : 컴포넌트 스캔 대상을 추가로 지정
+- `excludeFilters` : 컴포넌트 스캔에서 제외할 대상 지정
+
+##### Filter 테스트
+```java
+@Configuration
+@ComponentScan(
+        includeFilters = @Filter(type = FilterType.ANNOTATION, classes = MyIncludeComponent.class) ,
+        excludeFilters = @Filter(type = FilterType.ANNOTATION, classes = MyExcludeComponent.class)
+)
+static class ComponentFilterAppConfig {
+  ...
+}
+```
+- `includeFilters`에 `MyIncludeComponent` 애노테이션을 추가해서 BeanA는 스프링 빈에 등록
+- `excludeFilters`에 `MyExcludeComponent` 애노테이션을 추가해서 BeanB는 스프링 빈에 등록되지 않음
+
+### FilterType 옵션
+- `ANNOTAION` : 기본값, 애노테이션을 인식해 동작
+- `ASSIGNABLE_TYPE` : 지정한 타입과 자식 타입을 인식
+- `ASPECTJ` : AspectJ 패턴 사용
+- `REGEX` : 정규 표현식
+- `CUSTOM` : `TypeFilter` 인터페이스 구현해서 처리
+
+---
