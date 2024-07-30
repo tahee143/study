@@ -475,3 +475,26 @@ public class MemberServiceImpl implements MemberService{
   - `getBean(MemberRepository.class)`와 동일하다고 이해
 
 ---
+
+## 컴포넌트 스캔의 탐색 위치와 스캔 대상
+### 탐색할 패키기의 시작 위치 지정
+```java
+@ComponentScan( 
+        basePackages = "hello.core", "hello.service"
+)
+```
+- `basePackages` : 탐색할 패키지의 시작 위치 지정, 이 패키지 포함 하위 패키지 모두 탐색, 여러 위치 지정도 가능
+- `basePackageClasses` : 지정 클래스의 패키지를 탐색 시작 위로 지정
+- 아무 것도 없다면 `@ComponentScan`이 붙은 설정 정보 클래스의 패키지가 시작 위치
+- 권장하는 방법 : 패키지 위치를 지정하지 않고 설정 정보 클래스 위치를 프로젝트 최상단에 두는 것, 스프링 부트도 이 방법을 기본으로 제공
+  - 스프링 부트의 대표 시작 정보인 `@SpringBootApplication`을 프로젝트 시작 루트위치에 두는 것이 관례(이 설정 안에 `@ComponentScan`이 있음)
+
+### 컴포넌트 스캔 기본 대상
+- `@Component` : 컴포넌트 스캔에서 사용
+- `@Controller` : 스프링 MVC 컨트롤러
+- `@Service` : 스프링 비즈니스 로직
+- `@Repository` : 스프링 데이터 접근 계층, 데이터 계층의 예외를 스프링 예외로 변환
+- `@Configuration` : 스프링 설정 정보, 스프링 빈이 싱글톤을 유지하도록 추가 처리
+  - 참고 : 애노테이션에는 상속관계가 없다. 애노테이션이 특정 애노테이션을 들고 있는 것을 인식하는 것은 자바의 기능이 아니라 스프링이 지원하는 기능
+
+---
