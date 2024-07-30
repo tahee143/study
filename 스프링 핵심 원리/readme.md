@@ -634,3 +634,14 @@ public class OrderServiceImpl implements OrderService {
 ```
 
 ---
+
+## 옵션처리
+- 주입할 빈없이 동작해야할 때 `@Autowired`만 사용하면 `required`옵션의 기본값이 `true`로 되어있어 오류 발생
+  - `UnsatisfiedDependencyException` 예외 발생
+
+### 자동 주입 대상을 옵션으로 처리하느 ㄴ방법
+- `@Autowired(required=false)` : 자동 주입할 대상이 없으면 수정자 메서드 호출 안됨
+- `org.springframework.lang.@Nullable` : 자동 주입할 대상이 없으면 null 입력
+- `Optional<>` : 자동 주입할 대상이 없으면 `Optional.empty` 입력
+
+---
