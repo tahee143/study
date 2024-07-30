@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="hello.core.scan.filter.ComponentFilterAppConfigTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-07-30T13:57:39" hostname="hee.local" time="0.005">
+  <properties/>
+  <testcase name="컴포넌트 스캔 필터 애노테이션 테스트" classname="hello.core.scan.filter.ComponentFilterAppConfigTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

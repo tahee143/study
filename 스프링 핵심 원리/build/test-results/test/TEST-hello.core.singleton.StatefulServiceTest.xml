@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="hello.core.singleton.StatefulServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-07-30T13:57:39" hostname="hee.local" time="0.002">
+  <properties/>
+  <testcase name="상태를 유지하는 필드의 문제점" classname="hello.core.singleton.StatefulServiceTest" time="0.002"/>
+  <system-out><![CDATA[name = userA price = 10000
+name = userB price = 20000
+price1 = 20000
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

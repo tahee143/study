@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="hello.core.member.MemberServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-07-30T13:57:39" hostname="hee.local" time="0.001">
+  <properties/>
+  <testcase name="join()" classname="hello.core.member.MemberServiceTest" time="0.001"/>
+  <system-out><![CDATA[call AppConfig.memberService
+call AppConfig.memberRepository
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

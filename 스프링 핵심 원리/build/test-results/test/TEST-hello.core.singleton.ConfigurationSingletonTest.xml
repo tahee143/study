@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="hello.core.singleton.ConfigurationSingletonTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2024-07-30T13:57:39" hostname="hee.local" time="0.006">
+  <properties/>
+  <testcase name="appConfig 클래스 정보 확인" classname="hello.core.singleton.ConfigurationSingletonTest" time="0.003"/>
+  <testcase name="스프링 컨테이너의 싱글톤 확인" classname="hello.core.singleton.ConfigurationSingletonTest" time="0.003"/>
+  <system-out><![CDATA[call AppConfig.memberService
+call AppConfig.memberRepository
+call AppConfig.orderService
+appConfig.getClass() = class hello.core.AppConfig$$SpringCGLIB$$0
+call AppConfig.memberService
+call AppConfig.memberRepository
+call AppConfig.orderService
+memberService -> memberRepository = hello.core.member.MemoryMemberRepository@696b52bc
+orderService -> memberRepository = hello.core.member.MemoryMemberRepository@696b52bc
+memberRepository = hello.core.member.MemoryMemberRepository@696b52bc
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
