@@ -666,7 +666,7 @@ public class OrderServiceImpl implements OrderService {
 
 ---
 
-## 롬복과 최신 트렌드 
+## 7.4 롬복과 최신 트렌드 
 - 최근에는 생성자를 딱 1개 두고 `@Autowired` 생략하는 방법을 주로 사용
   - 생성자가 1개만 있으면 `@Autowired` 생략 가능
 - 여기에 Lombok 라이브러리의 애노테이션을 사용해 코드 깔끔하게 사용
@@ -680,7 +680,7 @@ public class OrderServiceImpl implements OrderService {
   private final MemberRepository memberRepository;
   private final DiscountPolicy discountPolicy;
 
-    @Autowired 생성자가 하나만 있으면 생략 가능
+    @Autowired
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
@@ -701,5 +701,87 @@ public class OrderServiceImpl implements OrderService {
 }
 
 ```
+
+---
+
+## 7.5 @Autowired 필드명, @Qualifier, @Primary
+### 조회 빈이 2개 이상일 때 문제점
+- `@Autowired`는 타입으로 조회, `getBean(Xxx.class)`와 유사하게 동작
+- 하위 타입도 같이 조회`NoUniqueBeanDefinitionException` 예외 발생
+
+### 조회 대상 빈이 2개 이상일 때 해결 방법
+#### 1. @Autowired 필드명
+- `@Autowired`는 타입매칭 시도 → 여러 빈이 있으면 필드 이름이나 파라미터 이름으로 빈 이름 추가 매칭
+```java
+// 기존코드
+@Autowired
+private DiscountPolicy discountPolicy
+
+// 필드명을 빈이름으로 변경
+@Autowired
+private DiscountPolicy rateDiscountPolicy
+```
+
+#### 2. @Qualifier
+- `@Qualifier` 끼리 매칭 → 없으면 빈 이름 매칭 → 없으면 `NoUniqueBeanDefinitionException` 예외 발생
+- 추가 구분자를 붙여주는 방법, 빈 이름을 변경하는 것이 아닌 주입시 추가적인 방법을 제공하는 것
+- `@Qualifier`는 `@Qualifier`를 찾는 용도로만 사용하는 것이 명확함
+
+```java
+// @Qualifier 사용
+@Component
+@Qualifier("mainDiscountPolicy")
+public class RateDiscountPolicy implements DiscountPolicy{ .. }
+
+@Component
+@Qualifier("fixDiscountPolicy")
+public class FixDiscountPolicy  implements DiscountPolicy{ .. }
+
+// OrderServiceImpl에서 @Qualifier로 지정
+@Component
+public class OrderServiceImpl implements OrderService {
+
+  private final MemberRepository memberRepository;
+  private final DiscountPolicy discountPolicy;
+
+  @Autowired
+  public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy) {
+    this.memberRepository = memberRepository;
+    this.discountPolicy = discountPolicy;
+  }
+}
+```
+- `@Qualifier`로 주입할 때` @Qualifier("mainDiscountPolicy")`을 못찾으면 `mainDiscountPolicy`라는 스프링 빈을 추가로 찾음
+
+#### 3. @Primary
+- 우선순위를 정하는 방법, 여러 빈이 조회되면 `@Primary`가 우선권을 가짐
+```java
+// RateDiscountPolicy 우선
+@Component
+@Primary
+public class RateDiscountPolicy implements DiscountPolicy{ .. }
+
+@Component
+public class FixDiscountPolicy  implements DiscountPolicy{ .. }
+
+@Component
+public class OrderServiceImpl implements OrderService {
+
+  private final MemberRepository memberRepository;
+  private final DiscountPolicy discountPolicy;
+
+  @Autowired
+  public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+    this.memberRepository = memberRepository;
+    this.discountPolicy = discountPolicy;
+  }
+}
+```
+### @Primary와 @Qualifier
+- 자주 사용하는 메인 데이터베이스 커넥션을 획득하는 빈은 `@Primary`, 보조 데이터베이스 커넥션을 획득하는 빈은 `@Qualifier`를 지정해 명시적으로 획득하면 코드를 깔끔하게 유지가능
+- 우선순위
+  - `@Primary`는 기본값처럼 동작, `@Qualifier`는 상세하게 동작
+  - 스프링은 자동보다 수동, 넓은 범위 선택권보다 좁은 범위 선택권이 우선순위가 높음
+  - `@Qualifier`가 더 높은 우선순위를 가짐
 
 ---
