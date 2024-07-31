@@ -751,7 +751,7 @@ public class OrderServiceImpl implements OrderService {
   }
 }
 ```
-- `@Qualifier`로 주입할 때` @Qualifier("mainDiscountPolicy")`을 못찾으면 `mainDiscountPolicy`라는 스프링 빈을 추가로 찾음
+- `@Qualifier`로 주입할 때 `@Qualifier("mainDiscountPolicy")`을 못찾으면 `mainDiscountPolicy`라는 스프링 빈을 추가로 찾음
 
 #### 3. @Primary
 - 우선순위를 정하는 방법, 여러 빈이 조회되면 `@Primary`가 우선권을 가짐
@@ -783,5 +783,23 @@ public class OrderServiceImpl implements OrderService {
   - `@Primary`는 기본값처럼 동작, `@Qualifier`는 상세하게 동작
   - 스프링은 자동보다 수동, 넓은 범위 선택권보다 좁은 범위 선택권이 우선순위가 높음
   - `@Qualifier`가 더 높은 우선순위를 가짐
+
+---
+
+## 7.6 애노테이션 직접 만들기
+- `@Qualifier("mainDiscountPolicy")` 이렇게 문자를 적으면 컴파일시 타입 체크 불가
+- 애노테이션을 만들어서 해결 가능
+##### @MainDiscountPolicy 애노테이션 생성
+```java
+@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Inherited
+@Documented
+@Qualifier("mainDiscountPolicy")
+public @interface MainDiscountPolicy { }
+```
+- 애노테이션을 상속이라는 개념 없음, 여러 애노테이션을 모아서 사용하는 기능은 스프링이 지원
+- @Qualifier뿐만 아니라 다른 애노테이션도 조합해 사용 가능, @Autowired도 재정의 가능
+- 뚜렷한 목적없이 무분별하게 재정의하는 것은 유지보수 어려움
 
 ---
