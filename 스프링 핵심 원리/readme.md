@@ -803,3 +803,20 @@ public @interface MainDiscountPolicy { }
 - 뚜렷한 목적없이 무분별하게 재정의하는 것은 유지보수 어려움
 
 ---
+
+## 7.7 조회한 빈이 모두 필요할 때 List, Map
+- 할인 서비스를 제공할 때 클라이언트가 rate, fix를 선택할 수 있는 경우
+- 스프링을 통해 전략 패턴을 간단하게 구성 가능
+```java
+private final Map<String, DiscountPolicy> policyMap;
+private final List<DiscountPolicy> policies;
+
+@Autowired
+public DiscountService(Map<String, DiscountPolicy> policyMap, List<DiscountPolicy> policies) {
+    this.policyMap = policyMap;
+    this.policies = policies;
+}
+```
+- `Map<String, DiscountPolicy>` : map의 키에 스프링 빈 이름을 넣어주고 `DiscountPolicy` 타입으로 조회한 모든 스프링 빈을 담음
+- `List<DiscountPolicy>` : `DiscountPolicy` 타입으로 조회한 모든 스프링 빈을 담음
+- 만약 해당하는 타입의 스프링 빈이 없으면 빈 컬렉션이나 Map을 주입
