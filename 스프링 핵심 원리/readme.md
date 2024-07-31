@@ -841,3 +841,7 @@ public DiscountService(Map<String, DiscountPolicy> policyMap, List<DiscountPolic
 - 이런 경우 수동 빈 등록하거나 자동으로하면 특정 패키지에 묶어 두는게 좋음
 
 ---
+
+## 8.1 빈 생명주기 콜백
+- 데이터베이스 커넥션 풀이나 네트워크 소켓처럼 애플리케이션 시작 시점에 필요한 연결을 미리 해두고, 종료 시점에 연결을 모두 종료하는 작업 → 객체의 초기화와 종료 작업 필요
+- 
