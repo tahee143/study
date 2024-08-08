@@ -1,10 +1,9 @@
 package hello.quickstart.controller;
 
+import hello.quickstart.dto.ItemDto;
+import hello.quickstart.dto.ResponseDto;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
@@ -34,5 +33,13 @@ public class QuickController {
     public String getCompany(@PathVariable("id") String id){
         log.info("id : {}", id);
         return "ok";
+    }
+
+    @PostMapping("/item")
+    public ResponseDto registerItem(@RequestBody ItemDto item){
+        log.info("item : {}", item);
+        ResponseDto responseDto = new ResponseDto();
+        responseDto.setMessage("ok");
+        return responseDto;
     }
 }
