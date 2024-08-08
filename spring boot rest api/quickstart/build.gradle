@@ -18,9 +18,16 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.2.0'
+
+	// https://mvnrepository.com/artifact/org.projectlombok/lombok
+	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
+
 }
 
 tasks.named('test') {
