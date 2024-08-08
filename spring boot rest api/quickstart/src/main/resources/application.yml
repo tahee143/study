@@ -6,10 +6,10 @@ spring:
   datasource:
     hikari:
       driver-class-name: org.h2.Driver
-      jdbc-url: jdbc:h2:~/test
+      jdbc-url: jdbc:h2:tcp://localhost/~/testDB
       username: sa
       password:
 
 mybatis:
   mapper-locations:
-    -mappers/*.xml
+    - mappers/*.xml

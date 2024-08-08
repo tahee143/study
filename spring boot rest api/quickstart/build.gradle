@@ -29,6 +29,10 @@ dependencies {
 	compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
 
 	runtimeOnly 'com.h2database:h2'
+
+	// https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter
+	implementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '3.0.3'
+
 }
 
 tasks.named('test') {

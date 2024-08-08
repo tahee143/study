@@ -56,4 +56,10 @@ public class QuickController {
         responseDto.setMessage("fail");
         return responseDto;
     }
+
+    @GetMapping("/item")
+    public ItemDto getItem(@RequestParam("id") String id) {
+        ItemDto itemById = quickService.getItemById(id);
+        return itemById;
+    }
 }
