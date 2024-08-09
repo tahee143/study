@@ -61,3 +61,15 @@
   - **GET 쿼리 파라미터**는 메시지 바디 사용 ❌ content-type ❌
   - **POST HTML Form**은 메시지 바디에 데이터를 포함⭕️ content-type ⭕️
 
+### HTTP 요청 데이터 - API 메시지바디
+#### 단순 텍스트 전송
+- `request.getInputStream()` : 메시지바디에 있는 내용을 byte 코드로 반환
+- `StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8)` : 바이트 코드를 String으로 변환, 인코딩 지정필요
+
+#### JSON
+- JSON 형식 전송
+  - 요청 URL : http://localhost:8080/request-body-json
+  - content-type: `application/json`
+  - message body : `{"username": "hello", "age": 20}`
+  - 결과 : `messageBody = {"username": "hello", "age": 20}`
+- 자바 객체로 json 결과를 파싱하기 위해 `jackson(ObjectMapper)` 라이브러리 사용
