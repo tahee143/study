@@ -26,21 +26,28 @@
 ## HTTP 요청 데이터 개요
 
 ### 데이터 전달 방법
-HTTP 요청 메시지를 통해 클라이언트에서 서버로 데이터를 전달하는 방법
+- HTTP 요청 메시지를 통해 클라이언트에서 서버로 데이터를 전달하는 방법
 
-##### GET - 쿼리 파라미터
-- `/url?username=lee&age=20`
-- 메시지 바디없이 URL의 쿼리 파라미터에 데이터 포함해 전달
-- 검색, 필터, 페이징에서 많이 사용
+- **GET - 쿼리 파라미터**
+  - `/url?username=lee&age=20`
+  - 메시지 바디없이 URL의 쿼리 파라미터에 데이터 포함해 전달
+  - 검색, 필터, 페이징에서 많이 사용
 
-##### POST - HTML Form
-- `content-type: application/x-www-form-urlencoded`
-- 메시지 바디에 쿼리 파라미터 형식으로 전달 `username=lee&age=20`
-- 회원가입, 상품 주문, HTML Form 사용
+- **POST - HTML Form**
+  - `content-type: application/x-www-form-urlencoded`
+  - 메시지 바디에 쿼리 파라미터 형식으로 전달 `username=lee&age=20`
+  - 회원가입, 상품 주문, HTML Form 사용
 
-##### HTTP message body
-- HTTP API에서 주로 사용, JSON, XML, TEXT
-- 데이터 형식은 주로 JSON 사용
-- POST, PUT, PATCH
+- **HTTP message body**
+  - HTTP API에서 주로 사용, JSON, XML, TEXT
+  - 데이터 형식은 주로 JSON 사용
+  - POST, PUT, PATCH
 
----
+### HTTP 요청 데이터 - GET 쿼리 파라미터
+- 쿼리 파라미터는 URL에 `?`로 시작을 보낼 수 있고 추가 파라미터는 `&`로 구분
+- 파라미터 전체 조회 : `request.getParameterNames()`
+- 단일 파라미터 조회 : `request.getParameter()`
+- 이름이 같은 복수 파라미터 조회 : `request.getParameterValues()`
+- 복수 파라미터에서 단일 파라미터 조회
+  - 이름이 중복일때 `getParameter()`를 사용하면 `getParameterValues()`의 첫번째 값을 반환
+
