@@ -20,3 +20,27 @@
   - 조회 : `request.getAttribute(name`
 - 세션 관리 기능
   - `request.getSession(create: true)`
+
+--- 
+
+## HTTP 요청 데이터 개요
+
+### 데이터 전달 방법
+HTTP 요청 메시지를 통해 클라이언트에서 서버로 데이터를 전달하는 방법
+
+##### GET - 쿼리 파라미터
+- `/url?username=lee&age=20`
+- 메시지 바디없이 URL의 쿼리 파라미터에 데이터 포함해 전달
+- 검색, 필터, 페이징에서 많이 사용
+
+##### POST - HTML Form
+- `content-type: application/x-www-form-urlencoded`
+- 메시지 바디에 쿼리 파라미터 형식으로 전달 `username=lee&age=20`
+- 회원가입, 상품 주문, HTML Form 사용
+
+##### HTTP message body
+- HTTP API에서 주로 사용, JSON, XML, TEXT
+- 데이터 형식은 주로 JSON 사용
+- POST, PUT, PATCH
+
+---
