@@ -51,3 +51,13 @@
 - 복수 파라미터에서 단일 파라미터 조회
   - 이름이 중복일때 `getParameter()`를 사용하면 `getParameterValues()`의 첫번째 값을 반환
 
+### HTTP 요청 데이터 - POST HTML Form
+- POST의 HTML Form을 전송하면 웹 브라우저가 HTTP 메시지를 만듦
+  - 요청 URL : http://localhost:8080/request-param
+  - content-type: `application/x-www-form-urlencoded`
+  - message body : `username=hello&age=20`
+- `application/x-www-form-urlencoded` 형식은 GET 쿼리 파라미터 형식과 같아 `request.getParameter()`로 조회가능
+- content-type은 HTTP 메시지 바디의 데이터 형식 지정
+  - **GET 쿼리 파라미터**는 메시지 바디 사용 ❌ content-type ❌
+  - **POST HTML Form**은 메시지 바디에 데이터를 포함⭕️ content-type ⭕️
+
