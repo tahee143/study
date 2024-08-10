@@ -91,3 +91,7 @@
 - HTML 응답
   - Content-Type을 `text/html`로 지정
 
+### HTTP 응답 데이터 - API JSON
+- Content-Type을 `application/json`로 지정
+- `objectMapper.writeValueAsString()`를 사용해 객체를 JSON 문자로 변경할 수 있음
+- `application/json`은 스펙상 utf-8 형식을 사용하도록 정의
