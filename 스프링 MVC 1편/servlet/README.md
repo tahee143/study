@@ -76,11 +76,18 @@
 
 ---
 
-## HttpServletResponse 기본 사용법
+## HttpServletResponse 
+### HTTP 응답 데이터 - 기본 사용법
 - HTTP 응답 메시지 생성
   - HTTP 응답 코드 지정
   - 헤더 생성
   - 바디 생성
 - 편의기능 제공
   - Content-Type, Redirect, 쿠키
-- 
+
+### HTTP 응답 데이터 - 단순 텍스트, HTML
+- 단순 텍스트 응답
+  - `writer.println("ok")`
+- HTML 응답
+  - Content-Type을 `text/html`로 지정
+
