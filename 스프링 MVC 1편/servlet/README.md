@@ -73,3 +73,14 @@
   - message body : `{"username": "hello", "age": 20}`
   - 결과 : `messageBody = {"username": "hello", "age": 20}`
 - 자바 객체로 json 결과를 파싱하기 위해 `jackson(ObjectMapper)` 라이브러리 사용
+
+---
+
+## HttpServletResponse 기본 사용법
+- HTTP 응답 메시지 생성
+  - HTTP 응답 코드 지정
+  - 헤더 생성
+  - 바디 생성
+- 편의기능 제공
+  - Content-Type, Redirect, 쿠키
+- 
