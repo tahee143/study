@@ -130,3 +130,16 @@
 - View
   - 모델에 담겨있는 데이터 사용해 화면 렌더링에 집중
   - HTML 생성 부분
+
+### 적용
+- Model은 HttpServletRequest 객체를 사용, request는 내부에 데이터 저장소를 가지고 있음
+- `request.setAttribute()`, `request.getAttribute()` 를 사용하면 데이터 보관, 조회 가능
+- `dispatcher.forward()` : 다른 서블릿이나 JSP로 이동, 서버 내부에서 다시 호출 발생
+- `/WEB-INF` : JSP가 있으면 외부에서 직접 JSP 호출 불가, 컨트롤러를 통해서만 호출
+- MVC 덕분에 컨트롤러 로직과 뷰 로직을 확실하게 분리
+
+#### redirect vs forward
+- redirect : 실제 클라이언트(웹 브라우저)에 응답이 나갔다가 클라이언트가 리다이렉트 경로로 다시 요청, 클라이언트가 인지할 수 있고 URL 경로도 실제 변경
+- forward : 서버 내부에서 일어나는 호출, 클라이언트가 전혀 인지 못 함
+
+
