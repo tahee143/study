@@ -95,3 +95,17 @@
 - Content-Type을 `application/json`로 지정
 - `objectMapper.writeValueAsString()`를 사용해 객체를 JSON 문자로 변경할 수 있음
 - `application/json`은 스펙상 utf-8 형식을 사용하도록 정의
+
+---
+
+## 서블릿과 JSP의 한계
+#### 서블릿과 JSP
+- 서블릿으로 개발할 때 뷰 화면을 위한 HTML에 자바 코드가 섞여 지저분하고 복잡
+- JSP를 사용한 덕분에 HTML 작업이 깔끔하게 가져가고 중간 동적으로 변경이 필요한 부분 자바 코드 적용
+- JSP 코드를 보면 데이터 조회 리포지토리 등 코드가 모두 노출
+- JSP에 너무 많은 역할
+
+#### MVC 패턴 등장
+- 비즈니스 로직은 서블릿처럼 다른 곳에서 처리
+- JSP는 목적에 맞게 HTML로 화면 구성에 집중
+

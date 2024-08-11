@@ -32,7 +32,7 @@ public class MemberSaveServlet extends HttpServlet {
                 "<head>\n" +
                 " <meta charset=\"UTF-8\">\n" + "</head>\n" +
                 "<body>\n" +
-                "성공\n" +
+                "Servlet 회원가입 성공\n" +
                 "<ul>\n" +
                 "    <li>id="+member.getId()+"</li>\n" +
                 "    <li>username="+member.getUsername()+"</li>\n" +
