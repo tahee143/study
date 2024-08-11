@@ -136,10 +136,21 @@
 - `request.setAttribute()`, `request.getAttribute()` 를 사용하면 데이터 보관, 조회 가능
 - `dispatcher.forward()` : 다른 서블릿이나 JSP로 이동, 서버 내부에서 다시 호출 발생
 - `/WEB-INF` : JSP가 있으면 외부에서 직접 JSP 호출 불가, 컨트롤러를 통해서만 호출
-- MVC 덕분에 컨트롤러 로직과 뷰 로직을 확실하게 분리
 
 #### redirect vs forward
 - redirect : 실제 클라이언트(웹 브라우저)에 응답이 나갔다가 클라이언트가 리다이렉트 경로로 다시 요청, 클라이언트가 인지할 수 있고 URL 경로도 실제 변경
 - forward : 서버 내부에서 일어나는 호출, 클라이언트가 전혀 인지 못 함
 
-
+### 한계
+- MVC 덕분에 컨트롤러 로직과 뷰 로직을 확실하게 분리했지만 단점이 있음
+- forward 중복
+  - view로 이동하는 코드가 항상 중복 호출
+- viewPath 중복
+  - prefix `/WEB-INF/views`
+  - suffix `.jsp`
+  - 다른 뷰 템플릿을 사용한다면 전체 코드 변경이 필요함
+- 사용하지 않는 코드
+  - `HttpServletRequest`, `HttpServletResponse` 사용하지 않을때도 적어야 함, 테스트 케이스 작성도 어려움
+- 공통 처리가 어려움
+  - 기능이 복잡해지면 공통으로 처리할 기능이 많아짐
+  - 메서드로 뽑아도 매번 메서드 호출, 누락, 중복 문제가 있음
