@@ -185,3 +185,19 @@
   - JSP
     - 이전 MVC것 그대로 사용
 
+### 프론트 컨트롤러 V2 - 뷰 분리
+- 모든 컨트롤러에서 직접 뷰를 forward하고 뷰로 이동하는 부분에 중복
+
+```java
+  String viewPath = "/WEB-INF/views/new-form.jsp";
+  RequestDispatcher dispatcher = request.getRequestDispatcher(viewPath);
+  dispatcher.forward(request, response);
+```
+- MyView
+  - 뷰를 처리하는 객체
+  - 컨트롤러가 MyView를 반환하면 뷰 객체에서 `forward` 로직을 수행해서 JSP 실행
+- ControllerV2
+  - 반환 타입 `MyView` 
+  - 프론트 컨트롤러는 각 컨트롤러 호출 결과로 `MyView`를 반환받음, `MyView.render()`호출하면 JSP 실행 
+  - 각 컨트롤러는 `dispatcher.forward()`를 생성하고 호출하지 않아도 됨
+  - `MyView` 객체를 생성만해서 반환하면 뷰 객체가 `forward` 로직 수행
