@@ -168,3 +168,20 @@
 - 공통 처리를 프론트 컨트롤러가 해결
 - 나머지 컨트롤러는 서블릿을 사용하지 않아도 됨
 
+### 프론트 컨트롤러 V1
+- ControllerV1
+  - 서블릿과 비슷한 모양의 컨트롤러 인터페이스
+  - 각 컨트롤러는 인터페이스를 구현
+- 프론트 컨트롤러
+  - urlPatterns
+    - `urlPatterns = "/front-controller/v1/*"` : 포함한 하위 모든 요청을 받음
+  - controllerMap
+    - key : 매핑 URL
+    - value : 호출될 컨트롤러
+  - service()
+    - `requestURI` 조회해 실제 호출할 컨트롤러를 `controllerMap` 에서 찾음
+    - 해당하는 컨트롤러가 없으면 404(SC_NOT_FOUND) 상태 코드를 반환
+    - 컨트롤러 찾고 `controller.process(request, response)` 호출해 해당 컨트롤러를 실행
+  - JSP
+    - 이전 MVC것 그대로 사용
+
