@@ -169,35 +169,67 @@
 - 나머지 컨트롤러는 서블릿을 사용하지 않아도 됨
 
 ### 프론트 컨트롤러 V1
-- ControllerV1
+#### ControllerV1
   - 서블릿과 비슷한 모양의 컨트롤러 인터페이스
   - 각 컨트롤러는 인터페이스를 구현
-- 프론트 컨트롤러
-  - urlPatterns
-    - `urlPatterns = "/front-controller/v1/*"` : 포함한 하위 모든 요청을 받음
-  - controllerMap
-    - key : 매핑 URL
-    - value : 호출될 컨트롤러
-  - service()
-    - `requestURI` 조회해 실제 호출할 컨트롤러를 `controllerMap` 에서 찾음
-    - 해당하는 컨트롤러가 없으면 404(SC_NOT_FOUND) 상태 코드를 반환
-    - 컨트롤러 찾고 `controller.process(request, response)` 호출해 해당 컨트롤러를 실행
-  - JSP
-    - 이전 MVC것 그대로 사용
+
+#### 프론트 컨트롤러
+- urlPatterns
+  - `urlPatterns = "/front-controller/v1/*"` : 포함한 하위 모든 요청을 받음
+- controllerMap
+  - key : 매핑 URL
+  - value : 호출될 컨트롤러
+- service()
+  - `requestURI` 조회해 실제 호출할 컨트롤러를 `controllerMap` 에서 찾음
+  - 해당하는 컨트롤러가 없으면 404(SC_NOT_FOUND) 상태 코드를 반환
+  - 컨트롤러 찾고 `controller.process(request, response)` 호출해 해당 컨트롤러를 실행
+- JSP
+  - 이전 MVC것 그대로 사용
 
 ### 프론트 컨트롤러 V2 - 뷰 분리
-- 모든 컨트롤러에서 직접 뷰를 forward하고 뷰로 이동하는 부분에 중복
+모든 컨트롤러에서 직접 뷰를 forward하고 뷰로 이동하는 부분에 중복
 
 ```java
   String viewPath = "/WEB-INF/views/new-form.jsp";
   RequestDispatcher dispatcher = request.getRequestDispatcher(viewPath);
   dispatcher.forward(request, response);
 ```
-- MyView
+#### MyView
   - 뷰를 처리하는 객체
   - 컨트롤러가 MyView를 반환하면 뷰 객체에서 `forward` 로직을 수행해서 JSP 실행
-- ControllerV2
+
+#### ControllerV2
   - 반환 타입 `MyView` 
   - 프론트 컨트롤러는 각 컨트롤러 호출 결과로 `MyView`를 반환받음, `MyView.render()`호출하면 JSP 실행 
   - 각 컨트롤러는 `dispatcher.forward()`를 생성하고 호출하지 않아도 됨
   - `MyView` 객체를 생성만해서 반환하면 뷰 객체가 `forward` 로직 수행
+
+### 프론트 컨트롤러 V3 - 모델 추가
+#### 서블릿 종속성 제거
+- 컨트롤러 입장에서 `HttpServletRequest`, `HttpServletResponse`는 꼭 필요하지 않음
+- 컨트롤러가 서블릿 기술을 사용하지 않아도 됨
+  - 요청 파라미터는 Map 이용
+  - request 객체를 모델로 사용하지 않고 별도의 Model 객체를 생성해 반환 
+
+#### 뷰 이름 중복 제거
+- 각 컨트롤러에서 뷰 이름에 중복이 있음
+- 중복을 제거하고 뷰의 위치가 변경되도 코드 변경이 없도록 가능
+  - 컨트롤러는 뷰의 논리 이름을 반환
+  - 실제 물리 위치는 프론트 컨트롤러에서 처리
+
+#### ModelView
+- 서블릿 종속성을 제거하기 위해 Model을 직접 생성하고 view 이름도 전달하는 객체
+
+#### ControllerV3
+- 서블릿 종속성을 제거해 컨트롤러에서 `HttpServletRequest` 사용 불가
+- 파라미터는 프론트 컨트롤러 paramMap에 담아 호출
+- 뷰 이름과 Model 데이터를 포함하는 ModelView 객체를 반환
+
+#### viewResolver
+- 컨트롤러가 반환한 뷰의 논리 이름을 실제 물리 이름으로 변경
+- 실제 물리 경로가 있는 MyView 객체 반환
+
+#### MyView
+- 뷰 객체를 통해 HTML 화면 렌더링
+- ModelView에 있던 데이터를 `request.setAttribute()`에 담아둠
+- `forward` 로직을 수행해서 JSP 실행
