@@ -859,6 +859,11 @@ public DiscountService(Map<String, DiscountPolicy> policyMap, List<DiscountPolic
 - 생성자 안에서 무거운 초기화 작업을 하는것보다 객체를 생성하는 부분, 초기화 하는 부분 명확하게 나누는것이 유지보수 관점에 좋음
 
 #### 빈 생명주기 콜백 3가지
-- 인터페이스
+- 인터페이스 InitializingBean, DisposableBean
 - 설정정토에 초기화 메서드, 종료 메서드 지정
-- @PostConstruct, @PreDestory 애노테이선 지원
+- @PostConstruct, @PreDestroy 애노테이선 지원
+
+---
+
+## 8.2 인터페이스 InitializingBean, DisposableBean
+- 

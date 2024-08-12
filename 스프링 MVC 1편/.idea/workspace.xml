@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1dc37bc9-f3d1-4ced-b419-6c0a0ab3d625" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../spring boot rest api/quickstart/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring boot rest api/quickstart/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring boot rest api/quickstart/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring boot rest api/quickstart/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring boot rest api/quickstart/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring boot rest api/quickstart/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring boot rest api/quickstart/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring boot rest api/quickstart/src/main/java/hello/quickstart/QuickstartApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring boot rest api/quickstart/src/main/java/hello/quickstart/controller/QuickController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring boot rest api/quickstart/src/main/java/hello/quickstart/dto/ItemDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring boot rest api/quickstart/src/main/java/hello/quickstart/dto/ResponseDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring boot rest api/quickstart/src/main/java/hello/quickstart/mappers/ItemEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring boot rest api/quickstart/src/main/java/hello/quickstart/mappers/QuickMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring boot rest api/quickstart/src/main/java/hello/quickstart/repository/ItemRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring boot rest api/quickstart/src/main/java/hello/quickstart/service/QuickService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring boot rest api/quickstart/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring boot rest api/quickstart/src/main/resources/mappers/itemMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring boot rest api/quickstart/src/test/java/hello/quickstart/QuickstartApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../스프링 핵심 원리/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/../스프링 핵심 원리/readme.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2kZZVXSORqWqb1HxZO6z5d5aPEz" />
+  <component name="ProjectViewState">
+    <option name="showExcludedFiles" value="false" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showScratchesAndConsoles" value="false" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/taehee/Documents/study/스프링 MVC 1편&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1dc37bc9-f3d1-4ced-b419-6c0a0ab3d625" name="Changes" comment="" />
+      <created>1723493082574</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1723493082574</updated>
+    </task>
+    <servers />
+  </component>
+</project>
