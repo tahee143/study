@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 
 import static org.assertj.core.api.Assertions.*;
 
-class orderApiTest extends ApiTest {
+class OrderApiTest extends ApiTest {
 
     @Test
     void 상품주문() {
