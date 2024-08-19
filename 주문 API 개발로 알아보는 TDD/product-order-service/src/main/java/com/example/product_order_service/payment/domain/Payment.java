@@ -1,6 +1,6 @@
-package com.example.product_order_service.payment;
+package com.example.product_order_service.payment.domain;
 
-import com.example.product_order_service.order.Order;
+import com.example.product_order_service.order.domain.Order;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import org.springframework.util.Assert;
 @Entity
 @Table(name = "payments")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-class Payment {
+public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,8 @@
 package com.example.product_order_service.product;
 
+import com.example.product_order_service.product.application.service.GetProductResponse;
+import com.example.product_order_service.product.application.service.ProductService;
+import com.example.product_order_service.product.application.service.UpdateProductRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

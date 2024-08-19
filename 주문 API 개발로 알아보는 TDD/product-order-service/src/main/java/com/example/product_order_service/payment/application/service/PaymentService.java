@@ -1,6 +1,8 @@
-package com.example.product_order_service.payment;
+package com.example.product_order_service.payment.application.service;
 
-import com.example.product_order_service.order.Order;
+import com.example.product_order_service.order.domain.Order;
+import com.example.product_order_service.payment.application.port.PaymentPort;
+import com.example.product_order_service.payment.domain.Payment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,7 +1,8 @@
 package com.example.product_order_service.order;
 
-import com.example.product_order_service.product.DiscountPolicy;
-import com.example.product_order_service.product.Product;
+import com.example.product_order_service.order.domain.Order;
+import com.example.product_order_service.product.domain.DiscountPolicy;
+import com.example.product_order_service.product.domain.Product;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;

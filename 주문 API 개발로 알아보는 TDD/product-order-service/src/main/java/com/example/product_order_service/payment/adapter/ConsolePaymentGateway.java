@@ -1,6 +1,5 @@
-package com.example.product_order_service.payment;
+package com.example.product_order_service.payment.adapter;
 
-import com.example.product_order_service.payment.PaymentGateway;
 import org.springframework.stereotype.Component;
 
 @Component
