@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/orders")
-class OrderService {
+public class OrderService {
     private final OrderPort orderPort;
 
     OrderService(final OrderPort orderPort) {

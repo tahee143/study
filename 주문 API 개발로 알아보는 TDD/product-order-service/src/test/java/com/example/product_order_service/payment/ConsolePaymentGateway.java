@@ -1,5 +1,8 @@
 package com.example.product_order_service.payment;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ConsolePaymentGateway implements PaymentGateway {
     @Override
     public void excute(final int totalPrice, final String cardNumber) {
