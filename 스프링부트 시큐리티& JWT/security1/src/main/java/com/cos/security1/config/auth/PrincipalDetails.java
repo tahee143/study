@@ -1,13 +1,17 @@
 package com.cos.security1.config.auth;
 
 import com.cos.security1.model.User;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
-public class PrincipalDetails implements UserDetails {
+@Data
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
     // 시큐리티가 /login 주소 요청이 오면 낚아채서 로그인을 진행
     // 로그인 진행이 완료되면 시큐리티 session을 만들어줌(Security ContextHolder)
@@ -21,6 +25,11 @@ public class PrincipalDetails implements UserDetails {
 
     public PrincipalDetails(User user) {
         this.user = user;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return null;
     }
 
     // 해당 유저의 권한을 반환
@@ -68,4 +77,8 @@ public class PrincipalDetails implements UserDetails {
         return true;
     }
 
+    @Override
+    public String getName() {
+        return null;
+    }
 }
