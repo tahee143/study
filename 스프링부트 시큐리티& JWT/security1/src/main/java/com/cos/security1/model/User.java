@@ -18,6 +18,8 @@ public class User {
     private String password;
     private String email;
     private String role; // ADMIN, USER, MANAGER
+    private String provider; // 소셜로그인 구분
+    private String providerId; // 소셜로그인 ID
     @CreationTimestamp
     private Timestamp createDate;
 
