@@ -22,14 +22,22 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     // Security session을 => Authentication => UserDetails(PrincipalDetails)
 
     private User user;
+    private Map<String, Object> attributes;
 
+    // 일반 로그인 생성자
     public PrincipalDetails(User user) {
         this.user = user;
     }
 
+    // OAuth 로그인 생성자
+    public PrincipalDetails(User user, Map<String, Object> attributes) {
+        this.user = user;
+        this.attributes = attributes;
+    }
+
     @Override
     public Map<String, Object> getAttributes() {
-        return null;
+        return attributes;
     }
 
     // 해당 유저의 권한을 반환
