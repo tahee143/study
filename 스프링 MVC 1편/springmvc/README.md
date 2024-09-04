@@ -1,4 +1,5 @@
 # 스프링 mvc 기본 기능
+
 ## 로깅 간단히 알아보기
 #### 로깅 라이브러리
 - 스프링 부트 라이브러리를 사용하면 스프링부트 로깅 라이브러리가 함께 포함
@@ -34,3 +35,52 @@ log.info("hello");
 - 콘솔뿐만 아니라 파일이나 네트워크 등 로그를 별도의 위치에 남길 수 있음
 - 파일로 남길 때 일별, 특정 용량에 따라 로그 분할 가능
 - 성능도 System.out 보다 좋음
+
+---
+
+## 요청 매핑
+
+#### 매핑 정보
+- `@Controller`
+  - 반환 값이 String이면 뷰 이름으로 인식, 뷰를 찾고 뷰가 랜더링
+- `@RestController`
+  - 반환 값 String을 HTTP 메시지 바디에 바로 입력
+
+#### @RequestMapping
+- 지정 URL 호출이 오면 메서드 실행
+- 속성을 배열로 제공해 다중 URL 설정 가능 `{"/hello-basic", "/hello-go"}`
+- ~~`/hello-basic`, `/hello-basic/` 두가지 요청은 다른 URL이지만 스프링은 같은 요청으로 처리~~ 
+  - 스프링 3.0부터 다른 요청으로 처리
+- `method` HTTP 메서드를 지정하지 않으면 HTTP 메서드와 무관하게 모두 호출
+  - 지정된 메서드 제외 다른 메서드로 요청하면 405 반환
+
+#### HTTP 메서드
+- GET, HEAD, POST, PUT, PATCH, DELETE
+- HTTP 메서드 매핑 축약
+  - `@GetMapping`
+  - `@PostMapping`
+  - `@PutMapping`
+  - `@DeleteMapping`
+  - `@PatchMapping`
+
+#### PathVariable(경로 변수) 사용
+- 최근 HTTP API는 리소스 경로에 식별자를 넣는 스타일 선호 
+  - `/mapping/user1`, `/user/2`
+- URL 경로를 템플릿화 할 때 `@PathVariable`사용
+
+#### 특정 파라미터 조건 매핑
+- 특정 파라미터가 조건에 부합하면 호출
+- mode=debug 조건에 맞아야지만 호출된다
+
+#### 특정 헤더 요청 조건 매핑
+- 특정 헤더 조건에 부합하면 호출
+
+#### 미디어 타입 조건 매핑 - HTTP 요청 Content-Type, consume
+- HTTP 요청의 Content-Type 헤더를 기반으로 미디어 타입으로 매핑
+- 미디어 타입 조건에 맞지 않으면 415 상태코드(Unsupported Media Type)을 반환
+- 컨트롤러 입장에선 정보를 소비하는 것이기 때문에 consume
+- 
+#### 미디어 타입 조건 매핑 - HTTP 요청 Accept, produce
+- HTTP 요청의 Accept 헤더를 기반으로 미디어 타입으로 매핑
+- 미디어 타입 조건에 맞지 않으면 406 상태코드(Not Acceptable)을 반환
+- 컨트롤러 입장에선 생산해내야 하는 것이디 때문에 produce
