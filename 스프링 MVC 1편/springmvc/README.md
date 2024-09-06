@@ -84,3 +84,15 @@ log.info("hello");
 - HTTP 요청의 Accept 헤더를 기반으로 미디어 타입으로 매핑
 - 미디어 타입 조건에 맞지 않으면 406 상태코드(Not Acceptable)을 반환
 - 컨트롤러 입장에선 생산해내야 하는 것이디 때문에 produce
+
+---
+
+## HTTP 요청
+
+#### 기본, 헤더 조회
+- `HttpMethod` : HTTP 메서드 조회
+- `Locale` : Locale 정보 조회
+- `@RequestHeader MultiValueMap<String, String> headerMap` : 모든 HTTP 헤더를 MultiValueMap 형식으로 조회
+  - `MultiValueMap` : Map과 유사한데 하나의 키에 여러 값을 받을 수 있음, 배열로 반환
+- `@RequestHeader("host")` : 특정 HTTP 헤더 조회
+- `@CookieValue(value = "myCookie", required = false)` : 특정 쿠키 조회
