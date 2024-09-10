@@ -168,3 +168,20 @@ log.info("hello");
 - 요청 파라미터 vs HTTP 메시지 바디
   - 요청 파라미터를 조회하는 기능: `@RequestParam` , `@ModelAttribute` 
   - HTTP 메시지 바디를 직접 조회하는 기능: `@RequestBody`
+
+#### JSON
+- HTTP API에서 주로 사용하는 JSON 데이터 형식 조회
+- HttpServletRequest 직접 문자 변환
+  - `HttpServletRequest`를 사용해서 직접 HTTP 메시지 바디에서 데이터를 읽고 문자로 변환
+- @RequestBody 문자 변환
+  - `@RequestBody`를 사용해 HTTP 메시지에서 데이터를 꺼내고 메시지 바디를 저장
+  - 문자로 된 JSON 데이터 메시지 바디를 `objectMapper`를 통해 자바 객체로 변환해 사용
+- @RequestBody, HttpEntity 객체 변환
+  - `HttpEntity`, `@RequestBody`를 사용하면 HTTP 메시지 컨버터가 HTTP 메시지 바디의 내용을 원하는 문자나 객체등으로 변환
+  - `@RequestBody`를 생략하면 `@ModelAttribute`가 적용되므로 생략 불가능
+  - `@ResponseBody`
+    - 응답의 경우에도 `HttpEntity`, `@ResponseBody` 를 사용하면 해당 객체를 HTTP 메시지 바디에 직접 넣어줄 수 있음
+- `@RequestBody` 요청
+  - JSON 요청 -> HTTP 메시지 컨버터 -> 객체
+- `@ResponseBody` 응답
+  - 객체 -> HTTP 메시지 컨버터 -> JSON 응답
