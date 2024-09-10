@@ -134,3 +134,16 @@ log.info("hello");
   - 빈 문자열인 경우에도 기본값 적용
 - 파라미터를 Map으로 조회하기 - requestParamMap
   - 파라미터의 값이 1개가 확실하다면 `Map` 사용, 여러 개라면 `MultiValueMap` 사용
+
+#### @ModelAttribute
+- @ModelAttribute 적용
+  - 요청 파라미터를 받아서 필요한 객체를 만들고 그 객체에 값을 넣어주는 과정을 스프링이 자동화해줌
+  - `@ModelAttribute`가 있으면 객체를 생성하고 요청 파라미터의 이름으로 객체의 프로퍼티를 찾음
+  - 해당 프로퍼티의 setter를 호출해서 파라미터 값을 바인딩함
+  - 바인딩 오류(`BindException`) int가 필요한 곳에 문자열이 들어가면 발생 -> 검증부분에서
+- @ModelAttribute 생략 - modelAttributeV2
+  - `@ModelAttribute`는 생략가능
+  - `@RequestParam`도 생략할 수 있으니 혼란이 발생할 수 있음
+  - 생략시 규칙
+    - `String`, `int`, `Integer` 같은 단순 타입 = `@RequestParam`
+    - 나머지 = `@ModelAttribute` (argument resolver로 지정해둔 타입은 지정되지 않음)
