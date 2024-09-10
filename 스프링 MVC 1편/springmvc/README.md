@@ -185,3 +185,32 @@ log.info("hello");
   - JSON 요청 -> HTTP 메시지 컨버터 -> 객체
 - `@ResponseBody` 응답
   - 객체 -> HTTP 메시지 컨버터 -> JSON 응답
+
+---
+
+## HTTP 응답
+
+### 정적 리소스, 뷰 템플릿
+- 스프링(서버)에서 응답 데이터를 만드는 방법 3가지
+  - 정적 리소스
+    - 웹 브라우저에 정적인 HTML, css, js를 제공할 때는 정적 리소스 사용
+  - 뷰 템플릿
+    - 웹 브라우저에 동적인 HTML을 제공할 때는 뷰 템플릿 사용
+  - HTTP 메시지
+    - HTTP API를 제공하는 경우에는 데이터를 전달해야함, HTTP 메시지 바디에 JSON 같은 형식으로 데이터를 실어 보냄
+
+#### 정적 리소스
+- 스프링 부트는 클래스패스의 `/static`, `/public`, `/resources`, `/META-INF/resources` 디렉토리에 있는 정적 리소스를 제공
+- `src/main/resources`는 리소스 보관, 클래스패스의 시작 경로임, 이 경로에 리소스를 넣어두면 스프링 부트가 정적 리소스로 서비스 제공
+- 정적 리소스는 해당 파일을 변경 없이 그대로 서비스함
+
+#### 뷰 템플릿
+- 뷰 템플릿을 거쳐 HTML이 생성되고 뷰가 응답을 만들어 전달
+- 일반적으로 HTML을 동적으로 생성하는 용도로 사용
+- String 반환하는 경우 - View or HTTP 메시지(responseViewV2)
+  - `@ResponseBody`가 없으면 `resources/hello`로 뷰 논리 이름이 반환되고 뷰 리졸버 실행되어 뷰를 찾아 렌더링
+  - `@ResponseBody`가 있으면 뷰 리졸버를 실행하지 않고 HTTP 메시지 바디에 직접 `resources/hello` 문자가 입력
+- Void 반환하는 경우(responseViewV3)
+  - `@Controller`를 사용하고 `HttpServletResponse`, `OutputStream(Writer)` 같은 HTTP 메시지 바디를 처리하는 파라미터가 없으면 요청 URL을 참고해 논리 뷰 이름으로 사용
+  - 이 방식은 명시성이 떨어지고 딱 맞는 경우도 많이도 없어서 권장하지 않음
+
