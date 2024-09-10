@@ -106,7 +106,7 @@ log.info("hello");
   - POST - HTML Form
     - `content-type: application/x-www-form-urlencoded`
     - 메시지 바디에 쿼리 파라미터 형싱으로 전달
-    - 회원가입, 상품 주ㅂ문, HTML Form 사용
+    - 회원가입, 상품 주문, HTML Form 사용
   - HTTP message body
     - HTTP API에서 주로 사용, JSON, XML, TEXT
     - 데이터 형식은 주로 JSON 사용
@@ -116,3 +116,21 @@ log.info("hello");
 - GET 쿼리 파라미터나 POST HTML Form 전송 방식이든 둘다 형식이 같아 구분없이 조회 가능
 - 이것을 간단하게 `요청 파라미터 조회`라 함
 - `HttpServletRequest`의 `request.getParameter()` 사용하면 두가지 요청 파라미터 조회 가능
+
+#### @RequestParam
+- 스프링이 제공하는 `@RequsetParam`을 사용하면 요청 파라미터를 매우 편리하게 사용가능
+- `@RequsetParam`의 `name(value)` 속성이 파라미터 이름으로 바인딩
+- `@ResponseBody`를 사용하면 view 조회대신 HTTP message body에 직접 내용 입력 가능
+- HTTP 파라미터 이름이 변수 이름과 같으면 `@RequsetParam(name="xx")` 생략 가능
+- String, int 등의 단순 타입이면 `@RequsetParam`도 생략 가능
+- 파라미터 필수 여부 - requestParamRequired
+  - `@RequestParam(required = true)` 파라미터 필수 여부 지정
+  - 필수 파라미터 없음 -> 400 예외 발생
+  - 파라미터 이름만 있고 값이 없는 경우 -> 빈 문자열로 통과
+  - 기본형(primitive) null 요청 -> 500 예외 발생, `Integer`로 변경하거나 `defaultValue` 사용
+- 기본 값 적용 - requestParamDefault
+  - 파라미터에 값이 없는 경우 `defaultValue`를 사용해 기본값 설정 가능
+  - `defaultValue`를 사용하면 `required`는 의미가 없어짐(기본값이 존재하기 때문에 값이 무조건 들어감)
+  - 빈 문자열인 경우에도 기본값 적용
+- 파라미터를 Map으로 조회하기 - requestParamMap
+  - 파라미터의 값이 1개가 확실하다면 `Map` 사용, 여러 개라면 `MultiValueMap` 사용
