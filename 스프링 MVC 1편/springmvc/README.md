@@ -234,3 +234,60 @@ log.info("hello");
   - 따라서 뷰 템플릿을 사용하는 것이 아니라 HTTP 메시지 바디에 직접 데이터 입력
 
 ---
+
+## HTTP 메시지 컨버터
+- 뷰 템플릿으로 HTML을 생성해서 응답하는 것이 아니라 HTTP API처럼 JSON 데이터를 HTTP 메시지 바디에서 직접 읽거나 쓰는 경우 HTTP 메시지 컨버터를 사용하면 편리함
+- `@ResponseBody`를 사용
+  - HTTP BODY에 문자 내용 직접 반환
+  - `viewResolver` 대신에 `HttpMessageConverter`가 동작
+  - 기본 문자, 객체, byte 처리 등 기타 여러 HttpMessageConverter가 기본으로 등록 되어있음
+  - 응답의 경우 클라이언트의 HTTP Accept 헤더와 서버의 컨트롤러 반환 타입 정보를 조합해 HttpMessageConverter 선택
+
+#### HTTP 메시지 컨버터 적용
+- 스프링 MVC는 다음 경우에 HTTP 메시지 컨버터를 적용함
+- HTTP 메시지 컨버터는 HTTP 요청, 응답 둘 다 사용됨
+- HTTP 요청 : `@RequestBody`, `HttpEntity(RequesEntity)`
+- HTTP 응답 : `@ResponseBody`, `HttpEntity(ResponseEntity)`
+
+### 스프링 부트 기본 메시지 컨버터
+- 대상 클래스 타입과 미디어 타입 둘을 체크해 사용여부 결정
+- 해당 컨버터에 만족하지 않으면 다음 컨버터로 우선순위가 넘어가며 결정
+
+#### 3가지 주요 메세지 컨버터
+1. `ByteArrayHttpMessageConverter` : `byte[]` 데이터를 처리
+  - 클래스 타입 : `byte[]`
+  - 미디어 타입 : `*/*`
+  - 요청 예) `@RequestBody byte[] data`
+  - 응답 예) `@ResponseBody return byte[]`
+  - 쓰기 미디어 타입 : `application/octet-stream`
+2. `StringHttpMessageConverter` : String 문자로 데이터 처리
+  - 클래스 타입 : `String`
+  - 미디어 타입 : `*/*`
+  - 요청 예) `@RequestBody String data`
+  - 응답 예) `@ResponseBody return "ok"` 
+  - 쓰기 미디어 타입 : `text/plain`
+3. `MappingJackson2HttpMessageConverter` : application/json
+  - 클래스 타입 : 객체 또는 `HashMap`
+  - 미디어 타입 : `application/json` 관련
+  - 요청 예) `@RequestBody HelloData data`
+  - 응답 예) `@ResponseBody return data` 
+  - 쓰기 미디어 타입 : `application/json` 관련
+
+
+#### HTTP 요청 데이터 읽기
+- HTTP 요청이 오고, 컨트롤러에서 `@RequestBody` , `HttpEntity` 파라미터를 사용
+- 메시지 컨버터가 메시지를 읽을 수 있는지 확인하기 위해 `canRead()` 를 호출
+  - 대상 클래스 타입을 지원?
+    - 예) `@RequestBody` 의 대상 클래스 ( `byte[]` , `String` , `HelloData` )
+  - HTTP 요청의 Content-Type 미디어 타입을 지원?
+    - 예) `text/plain` , `application/json` , `*/*`
+- `canRead()` 조건을 만족하면 `read()` 를 호출해서 객체 생성하고, 반환
+- 
+#### HTTP 응답 데이터 생성
+- 컨트롤러에서 `@ResponseBody` , `HttpEntity` 로 값이 반환
+- 메시지 컨버터가 메시지를 쓸 수 있는지 확인하기 위해 `canWrite()` 를 호출
+  - 대상 클래스 타입을 지원?
+    - 예) return의 대상 클래스 ( `byte[]` , `String` , `HelloData` )
+  - HTTP 요청의 Accept 미디어 타입을 지원?(더 정확히는 `@RequestMapping` 의 `produces` ) 
+    - 예) `text/plain` , `application/json` , `*/*`
+- `canWrite()` 조건을 만족하면 `write()` 를 호출해서 HTTP 응답 메시지 바디에 데이터를 생성
