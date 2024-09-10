@@ -96,3 +96,23 @@ log.info("hello");
   - `MultiValueMap` : Map과 유사한데 하나의 키에 여러 값을 받을 수 있음, 배열로 반환
 - `@RequestHeader("host")` : 특정 HTTP 헤더 조회
 - `@CookieValue(value = "myCookie", required = false)` : 특정 쿠키 조회
+
+### 요청 파라미터
+- `서블릿`에서 학습했던 HTTP 요청 메시지를 통해 클라이언트 서버로 데이터 전달하는 방법 3가지
+  - GET - 쿼리 파라미터
+    - `/url?userId=userA`
+    - 메시지 바디 없이 URL의 쿼리파라미터에 데이터 포함해 전달
+    - 검색, 필터, 페이징 등에서 자주 사용
+  - POST - HTML Form
+    - `content-type: application/x-www-form-urlencoded`
+    - 메시지 바디에 쿼리 파라미터 형싱으로 전달
+    - 회원가입, 상품 주ㅂ문, HTML Form 사용
+  - HTTP message body
+    - HTTP API에서 주로 사용, JSON, XML, TEXT
+    - 데이터 형식은 주로 JSON 사용
+    - POST, PUT, PATCH
+  
+#### 쿼리 파라미터, HTML
+- GET 쿼리 파라미터나 POST HTML Form 전송 방식이든 둘다 형식이 같아 구분없이 조회 가능
+- 이것을 간단하게 `요청 파라미터 조회`라 함
+- `HttpServletRequest`의 `request.getParameter()` 사용하면 두가지 요청 파라미터 조회 가능
