@@ -214,3 +214,23 @@ log.info("hello");
   - `@Controller`를 사용하고 `HttpServletResponse`, `OutputStream(Writer)` 같은 HTTP 메시지 바디를 처리하는 파라미터가 없으면 요청 URL을 참고해 논리 뷰 이름으로 사용
   - 이 방식은 명시성이 떨어지고 딱 맞는 경우도 많이도 없어서 권장하지 않음
 
+### HTTP 응답 - HTTP API, 메시지 바디에 직접 입력 
+- HTTP API를 제공하는 경우 HTML이 아니라 데이터를 전달해야함
+- HTTP 메시지 바디에 JSON 같은 형식으로 데이터를 실어 보냄
+- 참고로 HTML이나 뷰 템플릿을 사용해도 HTTP 응답 메시지 바디에 HTML 데이터가 담겨서 전달됨
+- responseBodyV1
+  - `HttpServletResponse` 객체를 통해서 HTTP 메시지 바디에 직접 응답 메시지 전달
+- responseBodyV2
+  - `ResponseEntity` HTTP 메시지 컨버터를 통해서 HTTP 메시지를 직접 입력 가능, HTTP 응답 코드를 설정해 전달
+- responseBodyV3
+  - `@ResponseBody`를 사용해 view를 사용하지 않고 HTTP 메시지 컨버터를 통해서 HTTP 메시지를 직접 입력 가능
+- responseBodyJsonV1
+  - `ResponseEntity`를 사용해 HTTP 메시지 컨버터를 통해서 JSON 형식으로 변환해 반환
+- responseBodyJsonV2
+  - `ResponseEntity`는 HTTP 응답 코드를 설정할 수 있는데 `@ResponseBody`같이 사용하면 응답 코드 설정이 어려움
+  - `@ResponseStatus(HttpStatus.OK)` 애노테이션을 사용해 지정 가능
+- `@RestController`
+  - `@Controller` 대신에 사용하면 컨트롤러 모두 `@ResponseBody`가 적용
+  - 따라서 뷰 템플릿을 사용하는 것이 아니라 HTTP 메시지 바디에 직접 데이터 입력
+
+---
