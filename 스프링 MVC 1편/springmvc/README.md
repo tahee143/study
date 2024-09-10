@@ -89,7 +89,7 @@ log.info("hello");
 
 ## HTTP 요청
 
-#### 기본, 헤더 조회
+### 기본, 헤더 조회
 - `HttpMethod` : HTTP 메서드 조회
 - `Locale` : Locale 정보 조회
 - `@RequestHeader MultiValueMap<String, String> headerMap` : 모든 HTTP 헤더를 MultiValueMap 형식으로 조회
@@ -147,3 +147,24 @@ log.info("hello");
   - 생략시 규칙
     - `String`, `int`, `Integer` 같은 단순 타입 = `@RequestParam`
     - 나머지 = `@ModelAttribute` (argument resolver로 지정해둔 타입은 지정되지 않음)
+
+### 요청 메시지
+
+#### 단순 텍스트
+- `서블릿`에서 학습한 `HTTP message body`에 데이터를 직접 담아 요청하는 방법
+  - HTTP API에서 주로 사용 JSON, XML, TEXT
+  - 데이터 형식은 JSON
+  - POST, PUT, PATCH
+- 메시지 바디를 통해 직접 데이터가 넘어오는 경우 `@RequestParam`, `@ModelAttribute` 사용 불가
+  - InputStream(Reader): HTTP 요청 메시지 바디의 내용을 직접 조회 
+  - OutputStream(Writer): HTTP 응답 메시지의 바디에 직접 결과 출력
+- HttpEntity
+  - `HttpMessageConverter`를 사용해 HTTP header, body를 편리하게 조회
+  - 응답에서도 메시지 바디 정보 직접 반환 가능
+  - `HttpEntity`를 상속받은 `RequestEntity`, `ResponseEntity` 객체들도 같은 기능 제공
+- @RequestBody
+  - `@RequestBody`를 사용하면 HTTP 메시지 바디 정보 편리하게 조회 가능
+    - 헤더 정보가 필요하다면 `HttpEntity`를 사용하거나 `@RequestHeader`사용
+- 요청 파라미터 vs HTTP 메시지 바디
+  - 요청 파라미터를 조회하는 기능: `@RequestParam` , `@ModelAttribute` 
+  - HTTP 메시지 바디를 직접 조회하는 기능: `@RequestBody`
