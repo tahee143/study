@@ -273,7 +273,6 @@ log.info("hello");
   - 응답 예) `@ResponseBody return data` 
   - 쓰기 미디어 타입 : `application/json` 관련
 
-
 #### HTTP 요청 데이터 읽기
 - HTTP 요청이 오고, 컨트롤러에서 `@RequestBody` , `HttpEntity` 파라미터를 사용
 - 메시지 컨버터가 메시지를 읽을 수 있는지 확인하기 위해 `canRead()` 를 호출
@@ -282,7 +281,7 @@ log.info("hello");
   - HTTP 요청의 Content-Type 미디어 타입을 지원?
     - 예) `text/plain` , `application/json` , `*/*`
 - `canRead()` 조건을 만족하면 `read()` 를 호출해서 객체 생성하고, 반환
-- 
+
 #### HTTP 응답 데이터 생성
 - 컨트롤러에서 `@ResponseBody` , `HttpEntity` 로 값이 반환
 - 메시지 컨버터가 메시지를 쓸 수 있는지 확인하기 위해 `canWrite()` 를 호출
@@ -291,3 +290,41 @@ log.info("hello");
   - HTTP 요청의 Accept 미디어 타입을 지원?(더 정확히는 `@RequestMapping` 의 `produces` ) 
     - 예) `text/plain` , `application/json` , `*/*`
 - `canWrite()` 조건을 만족하면 `write()` 를 호출해서 HTTP 응답 메시지 바디에 데이터를 생성
+
+---
+
+## 요청 매핑 핸들러 어뎁터 구조
+- HTTP 메시지 컨버터는 스프링 MVC 어디쯤에서 사용되는 걸까?
+  - `@RequestMapping`을 처리하는 핸들러 어댑터인 `RequestMappingHandlerAdapter`가 중요
+
+### RequestMappingHandlerAdapter 동작 방식
+#### ArgumentResolver
+- `HandlerMethodArgumentResolver`인데 줄여서 `ArgumentResolver`라고 부름
+- 애노테이션 기반의 컨트롤러는 매우 다양한 파라미터 사용가능
+  - `HttpServletRequest`, `Model`, `@RequestParam`, `@ModelAttribute`, `@RequestBody`, `HttpEntity`까지 매우 큰 유연함
+- 파라미터를 우연하게 처리할 수 있는 이유가 `ArgumentResolver` 덕분
+- 애노테이션 기반 컨트롤러를 처리하는 `RequestMappingHandlerAdapter`가 `ArgumentResolver`를 호출해 컨트롤러가 필요로하는 다양한 파라미터 값(객체)를 생성
+- 파라미터 값이 모두 준비되면 컨트롤러를 호출하면서 값을 넘겨줌
+- 동작 방식
+  - `supportParameter()`를 호출해서 해당 파라미터를 지원하는지 확인
+  - 지원하면 `resolveArgument()`호출해서 실제 객체 생성
+  - 생성된 객체가 컨트롤러 호출시 넘어감
+
+#### ReturnValueHandler
+- `HandlerMethodReturnValueHandler`를 줄여서 `ReturnValueHandler`라 부름
+- 응답 값을 변환하고 처리함
+  - `ModelAndView`, `@ResponseBody`, `HttpEntity`, `String` 등
+- 컨트롤러에서 String으로 뷰 이름을 반환할때 동작하는 이유가 `ReturnValueHandler`때문
+
+### HTTP 메시지 컨버터 위치
+#### HTTP 메시지 컨버터 위치
+- 요청
+  - `@RequestBody`와 `HttpEntity`를 각각 처리하는 `ArgumentResolver`가 있음
+  - `ArgumentResolver`들이 HTTP 메시지 컨버터를 사용해서 필요한 객체를 생성
+- 응답
+  - `@ResponseBody`와 `HttpEntity` 를 각각 처리하는 `ReturnValueHandler`가 있음
+  - `ReturnValueHandler`에서 HTTP 메시지 컨버터를 호출해서 응답 결과를 생성
+- 스프링 MVC는 `@RequestBody` `@ResponseBody`가 있으면
+  - `RequestResponseBodyMethodProcessor(ArgumentResolver, ReturnValueHandler 둘다 구현)` 사용
+- `HttpEntity` 가 있으면
+- `HttpEntityMethodProcessor(ArgumentResolver, ReturnValueHandler 둘다 구현)` 사용
